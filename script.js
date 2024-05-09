@@ -6,6 +6,5 @@ var percenage = 1000;
         document.getElementById("tblc").innerHTML=score;
         percenage = percenage - amount;
         document.getElementById("percenage").innerHTML=percenage;
-
     }
     // конец
