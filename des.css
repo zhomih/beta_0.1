@@ -5,12 +5,8 @@
 }
 body {
 position: absolute;
-width: 375px;
-height: 667px;
-left: 0;
-right: 618.25px;
-top: 0;
-bottom: 0;
+width: 350px;
+height: 650px;
 background-color: rgb(0, 0, 0);
 }
 
@@ -38,11 +34,6 @@ top: 570px;
 bottom: 67px;
 border-radius: 17px;
 background: rgb(255, 255, 255);
-}
-
-#main{
-  width: 100%;
-  padding: 20px;
 }
 
 #hole{
@@ -163,20 +154,6 @@ background-color: rgba(173, 184, 195, 0);
 border: #00000000;
 }
 
-
-#block_mask{
-  width: 96px;
-  height: 61px;
-  position: absolute;
-  background-color: rgb(0, 0, 0);
-  left: 210px;
-  right: 100px;
-  top: 900px;
-  bottom: -931px;
-  visibility: none;
-  display: none;
-}
-
 #boosts_icon{
   color: white;
   background-color: aliceblue;
@@ -227,9 +204,10 @@ bottom: 67px;
 
 #up_line{
   position: absolute;
-  width: 375px;
+  width: 369px;
   height: 48px;
   background-color: #fff;
+  left: 3px;
   top: 1px;
 }
 
@@ -260,7 +238,7 @@ z-index: 1;
 #rank_icon{
   position: absolute;
   top: 62px;
-left: 147px;
+left: 135px;
 z-index: 1;
 
 }
@@ -313,12 +291,13 @@ left: 80px;
   border-radius: 1005px;
   fill: #fff;
   top: 28px;
+  left: 3px;
 }
 
 #wallet{
   position: absolute;
   z-index: 3;
-  right: 20px;
+  right:1px;
 top: 20px;
 }
 
