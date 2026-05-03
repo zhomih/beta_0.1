@@ -1,184 +1,27 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>МаМагазин — коты-гивки</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>МаМагазин — коты-гивки</title><link rel="stylesheet" href="style.css"/></head><body>
+<div class="top-panel"><button class="balance" id="balanceMenuBtn">💰 <span id="balance">107</span> КотоКоинов ⚙️</button><button class="cart-btn" id="openCartBtn">🛒 <span id="cartCount">0</span></button></div>
 
-<body>
-  <div class="top-panel">
-  <div class="balance">💰 <span id="balance">107</span> КотоКоинов</div>
-  <button class="cart-btn" id="openCartBtn">🛒 <span id="cartCount">0</span></button>
-</div>
+<div class="balance-overlay" id="balanceOverlay"><div class="balance-modal"><button class="close-balance" id="closeBalanceMenuBtn">×</button><h2>💰 КотоКошелёк</h2><div class="wallet-cat"><video src="images/mama_pineapple.mp4" autoplay loop muted playsinline></video></div><p>Тут можно управлять КотоКоинами и помогать МаМагазину жить красиво.</p><button id="showPromoBtn">🎁 Промокод</button><div class="promo-box" id="promoBox"><input id="promoInput" placeholder="Введите промокод"/><button id="applyPromoBtn">Активировать</button><div id="promoMessage"></div></div><button id="earnFromMenuBtn">🐾 Как заработать?</button><a class="donate-link" href="https://pressf.com/kmrv/donate" target="_blank" rel="noopener">🪙 Закинуть копейку создателю</a></div></div>
 
-<button class="earn-help" id="earnHelpBtn">Как заработать?</button>
+<div class="cart-overlay" id="cartOverlay"><div class="cart-modal"><button class="close-cart" id="closeCartBtn">×</button><h2>🛒 Мяу-корзина</h2><div id="cartItems">Пока пусто. Коты обижены.</div><div class="cart-total">В корзине: <span id="cartTotal">0</span> КотоКоинов</div><button class="checkout" id="checkoutBtn">Оформить мяу-заказ</button><button class="clear" id="clearCartBtn">Очистить корзину</button><div class="delivery" id="deliveryBox"><h3>🚚 Статус доставки кота</h3><div class="delivery-track"><div class="delivery-fill" id="deliveryFill"></div><div class="delivery-cat" id="deliveryCat">🐈</div></div><div class="delivery-status" id="deliveryStatus">Кот пока сидит в корзине.</div><div class="delivery-actions" id="deliveryActions"><button id="receivedBtn">Я получил заказ</button><button class="sad-btn" id="missingBtn">Кота нет 😿</button></div></div><div class="message" id="message"></div></div></div>
 
-  <div class="cart-overlay" id="cartOverlay">
-    <div class="cart-modal">
-      <button class="close-cart" id="closeCartBtn">×</button>
+<div class="rules-overlay" id="rulesOverlay"><div class="rules-modal"><button class="close-rules" id="closeRulesBtn">×</button><h2>❓ Правила КотоКликера</h2><div class="rules-cat"><video src="images/mama_hat.mp4" autoplay loop muted playsinline></video></div><p>Жми на котолапу и зарабатывай КотоКоины. За каждый тык выпадает случайная награда от 1 до 5 КотоКоинов.</p><p>Иногда срабатывает <b>Крит-мяу x2</b>, а если повезёт — <b>ДЖЕКПОТ-МЯУ x5</b> с фейерверками.</p><p>КотоКоины можно тратить на котов. Добавил кота в корзину — монеты списались. Убрал кота — монеты вернулись.</p></div></div>
 
-      <h2>🛒 Мяу-корзина</h2>
-      <div id="cartItems">Пока пусто. Коты обижены.</div>
+<div class="details-overlay" id="detailsOverlay"><div class="details-modal"><button class="close-details" id="closeDetailsBtn">×</button><h2 id="detailsTitle">Кот</h2><div class="details-video"><video id="detailsVideo" autoplay loop muted playsinline></video></div><p id="detailsText"></p><div class="details-stats" id="detailsStats"></div></div></div>
 
-      <div class="cart-total">
-        В корзине: <span id="cartTotal">0</span> КотоКоинов
-      </div>
+<div class="fireworks" id="fireworks"></div>
+<div class="curse-overlay" id="curseOverlay"><div class="curse-modal"><h2>67</h2><p>Число КотоКоинов — 67.<br>Срочно потратьте или заработайте новые.</p><div class="curse-actions"><button id="curseSpendBtn">Потратить</button><button id="curseEarnBtn">Заработать новые</button></div><button class="keep-67" id="keep67Btn">оставить такой баланс</button></div></div>
+<div class="screamer-overlay" id="screamerOverlay"><video src="images/mama_another_hat.mp4" autoplay muted playsinline></video><div>МЯУ.</div></div>
 
-      <button class="checkout" id="checkoutBtn">Оформить мяу-заказ</button>
-      <button class="clear" id="clearCartBtn">Очистить корзину</button>
+<header><div class="logo">МаМагазин</div><p class="subtitle">Витрина котов-гивок. Оплата только КотоКоинами 🐾</p></header>
 
-      <div class="delivery" id="deliveryBox">
-        <h3>🚚 Статус доставки кота</h3>
+<main class="shop">
+<div class="card"><div class="cat"><video src="images/mama_mini.MP4" autoplay loop muted playsinline></video></div><h2>МаМини</h2><p class="desc">Маленький кот, большая важность.</p><div class="price">Цена: 25 КотоКоинов</div><button class="buy-btn" data-name="МаМини" data-price="25">В корзину</button><button class="details-btn" data-cat="mini">Подробнее</button></div>
+<div class="card"><div class="cat"><video src="images/mama_pineapple.mp4" autoplay loop muted playsinline></video></div><h2>Ананасовый Ма</h2><p class="desc">Выглядит мило, но явно что-то планирует.</p><div class="price">Цена: 40 КотоКоинов</div><button class="buy-btn" data-name="Ананасовый Ма" data-price="40">В корзину</button><button class="details-btn" data-cat="pineapple">Подробнее</button></div>
+<div class="card"><div class="cat"><video src="images/mama_cute.mp4" autoplay loop muted playsinline></video></div><h2>МаМилашка</h2><p class="desc">Слишком милый. Подозрительно.</p><div class="price">Цена: 30 КотоКоинов</div><button class="buy-btn" data-name="МаМилашка" data-price="30">В корзину</button><button class="details-btn" data-cat="cute">Подробнее</button></div>
+<div class="card"><div class="cat mahat2-box"><video class="mahat2-video" src="images/mama_another_hat.mp4" autoplay loop muted playsinline></video></div><h2>МаШляпа 2</h2><p class="desc">Когда стиль есть, а вопросов больше.</p><div class="price">Цена: 35 КотоКоинов</div><button class="buy-btn" data-name="МаШляпа 2" data-price="35">В корзину</button><button class="details-btn" data-cat="hat2">Подробнее</button></div>
+<div class="card"><div class="cat"><video src="images/mama_hat.mp4" autoplay loop muted playsinline></video></div><h2>МаШляпа</h2><p class="desc">Главная модница всего МаМагазина.</p><div class="price">Цена: 45 КотоКоинов</div><button class="buy-btn" data-name="МаШляпа" data-price="45">В корзину</button><button class="details-btn" data-cat="hat">Подробнее</button></div>
+</main>
 
-        <div class="delivery-track">
-          <div class="delivery-fill" id="deliveryFill"></div>
-          <div class="delivery-cat" id="deliveryCat">🐈</div>
-        </div>
-
-        <div class="delivery-status" id="deliveryStatus">
-          Кот пока сидит в корзине.
-        </div>
-
-        <div class="delivery-actions" id="deliveryActions">
-          <button id="receivedBtn">Я получил заказ</button>
-          <button class="sad-btn" id="missingBtn">Кота нет 😿</button>
-        </div>
-      </div>
-
-      <div class="message" id="message"></div>
-    </div>
-  </div>
-
-  <div class="rules-overlay" id="rulesOverlay">
-    <div class="rules-modal">
-      <button class="close-rules" id="closeRulesBtn">×</button>
-
-      <h2>❓ Правила КотоКликера</h2>
-
-      <div class="rules-cat">
-        <video src="images/mama_hat.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <p>
-        Жми на котолапу и зарабатывай КотоКоины.
-        За каждый тык выпадает случайная награда от 1 до 5 КотоКоинов.
-      </p>
-
-      <p>
-        Иногда срабатывает <b>Крит-мяу x2</b>, а если повезёт —
-        <b>ДЖЕКПОТ-МЯУ x5</b> с фейерверками.
-      </p>
-
-      <p>
-        КотоКоины можно тратить на котов. Добавил кота в корзину —
-        монеты списались. Убрал кота — монеты вернулись.
-      </p>
-    </div>
-  </div>
-
-  <div class="fireworks" id="fireworks"></div>
-
-  <div class="curse-overlay" id="curseOverlay">
-    <div class="curse-modal">
-      <h2>67</h2>
-      <p>
-        Число КотоКоинов — 67.<br>
-        СРОЧНО ПОТРАТЬТЕ ИЛИ ЗАРАБОТАЙТЕ НОВЫЕ.
-      </p>
-
-      <div class="curse-actions">
-        <button id="curseSpendBtn">Потратить</button>
-        <button id="curseEarnBtn">Заработать новые</button>
-      </div>
-
-      <button class="keep-67" id="keep67Btn">оставить такой баланс</button>
-    </div>
-  </div>
-
-  <div class="screamer-overlay" id="screamerOverlay">
-    <video src="images/mama_another_hat.mp4" autoplay muted playsinline></video>
-    <div>НЕ ЗАХОДИ БОЛЬШЕ СЮДА.</div>
-  </div>
-
-  <header>
-    <div class="logo">МаМагазин</div>
-    <p class="subtitle">Витрина котов-гивок. Оплата только КотоКоинами 🐾</p>
-  </header>
-
-  <main class="shop">
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_mini.MP4" autoplay loop muted playsinline></video>
-      </div>
-      <h2>МаМини</h2>
-      <p class="desc">Маленький кот, большая важность.</p>
-      <div class="price">Цена: 25 КотоКоинов</div>
-      <button class="buy-btn" data-name="МаМини" data-price="25">В корзину</button>
-    </div>
-
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_pineapple.mp4" autoplay loop muted playsinline></video>
-      </div>
-      <h2>Ананасовый Ма</h2>
-      <p class="desc">Выглядит мило, но явно что-то планирует.</p>
-      <div class="price">Цена: 40 КотоКоинов</div>
-      <button class="buy-btn" data-name="Ананасовый Ма" data-price="40">В корзину</button>
-    </div>
-
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_cute.mp4" autoplay loop muted playsinline></video>
-      </div>
-      <h2>МаМилашка</h2>
-      <p class="desc">Слишком милый. Подозрительно.</p>
-      <div class="price">Цена: 30 КотоКоинов</div>
-      <button class="buy-btn" data-name="МаМилашка" data-price="30">В корзину</button>
-    </div>
-
-    <div class="card">
-      <div class="cat mahat2-box">
-        <video class="mahat2-video" src="images/mama_another_hat.mp4" autoplay loop muted playsinline></video>
-      </div>
-      <h2>МаШляпа 2</h2>
-      <p class="desc">Когда стиль есть, а вопросов больше.</p>
-      <div class="price">Цена: 35 КотоКоинов</div>
-      <button class="buy-btn" data-name="МаШляпа 2" data-price="35">В корзину</button>
-    </div>
-
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_hat.mp4" autoplay loop muted playsinline></video>
-      </div>
-      <h2>МаШляпа</h2>
-      <p class="desc">Главная модница всего МаМагазина.</p>
-      <div class="price">Цена: 45 КотоКоинов</div>
-      <button class="buy-btn" data-name="МаШляпа" data-price="45">В корзину</button>
-    </div>
-  </main>
-
-  <section class="game">
-    <button class="rules-btn" id="openRulesBtn">❓ Правила</button>
-
-    <h2>🐾 КотоКликер</h2>
-    <p>Жми на лапу: выпадет случайная награда от 1 до 5 КотоКоинов.</p>
-
-    <button class="paw" id="earnBtn">🐾</button>
-
-    <div class="game-stats">
-      <div>Последний дроп: <span id="lastDrop">0</span> КотоКоинов</div>
-      <div>Множитель: <span id="multiplier">x1</span></div>
-    </div>
-
-    <div id="gameMessage">Иногда выпадает крит-мяу x2 или джекпот 😼</div>
-  </section>
-
-  <footer>
-    © 2026 МаМагазин. @aerisgold
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+<section class="game"><button class="rules-btn" id="openRulesBtn">❓ Правила</button><h2>🐾 КотоКликер</h2><p>Жми на лапу: выпадет случайная награда от 1 до 5 КотоКоинов.</p><button class="paw" id="earnBtn">🐾</button><div class="game-stats"><div>Последний дроп: <span id="lastDrop">0</span> КотоКоинов</div><div>Множитель: <span id="multiplier">x1</span></div></div><div id="gameMessage">Иногда выпадает крит-мяу x2 или джекпот 😼</div></section>
+<footer>© 2026 МаМагазин. @aerisgold</footer><script src="script.js"></script></body></html>
