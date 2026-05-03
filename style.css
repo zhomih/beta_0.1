@@ -680,6 +680,23 @@ button:active,
   animation: scaryPulse 1.4s infinite ease-in-out;
 }
 
+.volume-box {
+  margin-top: 14px;
+  padding: 12px;
+  background: #fff1f8;
+  border: 3px dashed #ff7abb;
+  border-radius: 18px;
+  font-weight: 900;
+  color: #6b3457;
+}
+
+.volume-box input {
+  width: 100%;
+  margin-top: 10px;
+  accent-color: #ff5cad;
+  cursor: pointer;
+}
+
 .curse-modal h2 {
   font-size: 90px;
   margin: 0;
