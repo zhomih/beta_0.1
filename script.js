@@ -1,8 +1,19 @@
 let balance = 107;
 const cart = [];
 
+const stats = {
+  bought: 0,
+  delivered: 0,
+  spent: 0,
+  earned: 0,
+  promos: 0
+};
+
 let deliveryInterval = null;
 let curseShownThisSession = false;
+let musicStarted = false;
+let musicAudio = null;
+let musicTimer = null;
 
 const $ = (id) => document.getElementById(id);
 
@@ -56,6 +67,15 @@ const applyPromoBtn = $("applyPromoBtn");
 const promoMessage = $("promoMessage");
 const earnFromMenuBtn = $("earnFromMenuBtn");
 
+const openStatsBtn = $("openStatsBtn");
+const statsOverlay = $("statsOverlay");
+const closeStatsBtn = $("closeStatsBtn");
+const statBought = $("statBought");
+const statDelivered = $("statDelivered");
+const statSpent = $("statSpent");
+const statEarned = $("statEarned");
+const statPromos = $("statPromos");
+
 const usedPromos = new Set();
 
 const catDetails = {
@@ -63,55 +83,31 @@ const catDetails = {
     title: "МаМини",
     video: "images/mama_mini.MP4",
     text: "Маленький кот с огромным самомнением. Делает вид, что ничего не понимает, но уже посчитал твой баланс.",
-    stats: [
-      "Редкость: маленькая легенда",
-      "Любимая еда: крошка рыбки",
-      "Риск побега: 12%"
-    ]
+    stats: ["Редкость: маленькая легенда", "Любимая еда: крошка рыбки", "Риск побега: 12%"]
   },
-
   pineapple: {
     title: "Ананасовый Ма",
     video: "images/mama_pineapple.mp4",
     text: "Кот в ананасовой броне. Выглядит как фрукт, но внутри бизнес-план и лёгкое осуждение.",
-    stats: [
-      "Редкость: тропический",
-      "Любимая еда: лосось с зонтиком",
-      "Риск побега: 34%"
-    ]
+    stats: ["Редкость: тропический", "Любимая еда: лосось с зонтиком", "Риск побега: 34%"]
   },
-
   cute: {
     title: "МаМилашка",
     video: "images/mama_cute.mp4",
     text: "Слишком милый кот. Опасность в том, что после просмотра хочется отдать ему все КотоКоины.",
-    stats: [
-      "Редкость: милая угроза",
-      "Любимая еда: комплименты",
-      "Риск побега: 5%"
-    ]
+    stats: ["Редкость: милая угроза", "Любимая еда: комплименты", "Риск побега: 5%"]
   },
-
   hat2: {
     title: "МаШляпа 2",
     video: "images/mama_another_hat.mp4",
     text: "Кот, который знает про стиль больше, чем весь подъезд. Смотрит прямо в душу и требует уважения.",
-    stats: [
-      "Редкость: модный босс",
-      "Любимая еда: внимание",
-      "Риск побега: 67%"
-    ]
+    stats: ["Редкость: модный босс", "Любимая еда: внимание", "Риск побега: 67%"]
   },
-
   hat: {
     title: "МаШляпа",
     video: "images/mama_hat.mp4",
     text: "Главная модница МаМагазина. Может ничего не делать, но всё равно выглядит как владелец бренда.",
-    stats: [
-      "Редкость: легендарная",
-      "Любимая еда: розовый корм",
-      "Риск побега: 22%"
-    ]
+    stats: ["Редкость: легендарная", "Любимая еда: розовый корм", "Риск побега: 22%"]
   }
 };
 
@@ -152,13 +148,20 @@ function updateBalance() {
   balanceEl.textContent = balance;
 }
 
+function updateStats() {
+  statBought.textContent = stats.bought;
+  statDelivered.textContent = stats.delivered;
+  statSpent.textContent = stats.spent;
+  statEarned.textContent = stats.earned;
+  statPromos.textContent = stats.promos;
+}
+
 function getCartTotal() {
   return cart.reduce((sum, item) => sum + item.price, 0);
 }
 
 function animateElement(element) {
   if (!element) return;
-
   element.classList.remove("pop");
   void element.offsetWidth;
   element.classList.add("pop");
@@ -166,7 +169,6 @@ function animateElement(element) {
 
 function animateButton(button) {
   if (!button) return;
-
   button.classList.remove("button-pop");
   void button.offsetWidth;
   button.classList.add("button-pop");
@@ -220,31 +222,33 @@ function addToCart(name, price, button) {
   }
 
   balance -= price;
+  stats.bought += 1;
+  stats.spent += price;
 
-  cart.push({
-    name,
-    price
-  });
+  cart.push({ name, price });
 
   updateBalance();
+  updateStats();
   renderCart();
   animateElement(document.querySelector(".balance"));
   animateButton(button);
 
   messageEl.textContent = `${name} добавлен в корзину. Списано ${price} КотоКоинов 🐾`;
-
   maybeShowCurseAfterPurchase();
 }
 
 function removeFromCart(index) {
   const item = cart[index];
-
   if (!item) return;
 
   balance += item.price;
+  stats.bought = Math.max(0, stats.bought - 1);
+  stats.spent = Math.max(0, stats.spent - item.price);
+
   cart.splice(index, 1);
 
   updateBalance();
+  updateStats();
   renderCart();
   animateElement(document.querySelector(".balance"));
 
@@ -253,6 +257,7 @@ function removeFromCart(index) {
 
 function clearCart() {
   const refund = getCartTotal();
+  const removedCount = cart.length;
 
   if (cart.length === 0) {
     messageEl.textContent = "Корзина и так пустая, бро.";
@@ -260,9 +265,13 @@ function clearCart() {
   }
 
   balance += refund;
+  stats.bought = Math.max(0, stats.bought - removedCount);
+  stats.spent = Math.max(0, stats.spent - refund);
+
   cart.length = 0;
 
   updateBalance();
+  updateStats();
   renderCart();
   resetDelivery();
   animateElement(document.querySelector(".balance"));
@@ -307,7 +316,6 @@ function startDelivery() {
 
   deliveryBox.classList.add("active");
   deliveryActions.classList.remove("active");
-
   deliveryFill.style.width = "0%";
   deliveryCat.style.left = "0%";
   deliveryStatus.textContent = "Кот готовится к доставке 🐾";
@@ -327,7 +335,6 @@ function startDelivery() {
     if (step >= route.length - 1) {
       clearInterval(deliveryInterval);
       deliveryInterval = null;
-
       deliveryFill.style.width = "100%";
       deliveryCat.style.left = "100%";
       deliveryStatus.textContent = "У двери 🚪";
@@ -343,10 +350,7 @@ function startDelivery() {
   }
 
   moveDeliveryStep();
-
-  deliveryInterval = setInterval(() => {
-    moveDeliveryStep();
-  }, 3000);
+  deliveryInterval = setInterval(moveDeliveryStep, 3000);
 }
 
 function checkout() {
@@ -363,6 +367,9 @@ function checkout() {
 }
 
 function orderReceived() {
+  stats.delivered += 1;
+  updateStats();
+
   messageEl.textContent = "Спасибо за заказ! Кот официально принят в семью 😺";
   deliveryStatus.textContent = "Заказ получен. Кот доволен 🐾";
   deliveryActions.classList.remove("active");
@@ -386,7 +393,6 @@ function closeRules() {
 
 function openDetails(key) {
   const cat = catDetails[key];
-
   if (!cat) return;
 
   detailsTitle.textContent = cat.title;
@@ -485,7 +491,49 @@ function megaMommyEffect() {
   }, 3000);
 }
 
+function startFunnyMusic() {
+  if (musicStarted) return;
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const audio = new AudioContext();
+
+  musicAudio = audio;
+  musicStarted = true;
+
+  const melody = [
+    523, 659, 784, 659,
+    587, 698, 880, 698,
+    523, 659, 784, 1046
+  ];
+
+  let index = 0;
+
+  musicTimer = setInterval(() => {
+    if (!musicStarted) return;
+
+    const osc = audio.createOscillator();
+    const gain = audio.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.value = melody[index % melody.length];
+
+    gain.gain.setValueAtTime(0.0001, audio.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.045, audio.currentTime + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.22);
+
+    osc.connect(gain);
+    gain.connect(audio.destination);
+
+    osc.start();
+    osc.stop(audio.currentTime + 0.25);
+
+    index++;
+  }, 260);
+}
+
 function earnCoins() {
+  startFunnyMusic();
+
   const baseDrop = Math.floor(Math.random() * 5) + 1;
 
   let multiplier = 1;
@@ -505,7 +553,10 @@ function earnCoins() {
   const reward = baseDrop * multiplier;
 
   balance += reward;
+  stats.earned += reward;
+
   updateBalance();
+  updateStats();
 
   $("lastDrop").textContent = reward;
   $("multiplier").textContent = `x${multiplier}`;
@@ -548,6 +599,16 @@ function closeBalanceMenu() {
   balanceOverlay.classList.remove("active");
 }
 
+function openStats() {
+  updateStats();
+  statsOverlay.classList.add("active");
+  startFunnyMusic();
+}
+
+function closeStats() {
+  statsOverlay.classList.remove("active");
+}
+
 function applyPromo() {
   const code = promoInput.value.trim().toLowerCase();
 
@@ -557,13 +618,11 @@ function applyPromo() {
       reward: 2500,
       text: "+2500 КотоКоинов и бесконечный респект :) трать на что хочешь. Разработчик этой игры, как он вообще до этого додумался... главный ненавистник числа 67 и подобных мемов."
     },
-
     "андре": {
       type: "subtract",
       reward: 500,
       text: "-500 КотоКоинов. АХАХАХАХ НЕТ ПОЖАЛУЙСТА"
     },
-
     "мамочка": {
       type: "infinite",
       reward: 999999,
@@ -588,9 +647,11 @@ function applyPromo() {
 
   const promo = promos[code];
   usedPromos.add(code);
+  stats.promos += 1;
 
   if (promo.type === "add") {
     balance += promo.reward;
+    stats.earned += promo.reward;
   }
 
   if (promo.type === "subtract") {
@@ -603,10 +664,12 @@ function applyPromo() {
 
   if (promo.type === "infinite") {
     balance = promo.reward;
+    stats.earned += promo.reward;
     megaMommyEffect();
   }
 
   updateBalance();
+  updateStats();
   animateElement(document.querySelector(".balance"));
 
   promoMessage.textContent = promo.text;
@@ -660,30 +723,30 @@ earnFromMenuBtn.addEventListener("click", () => {
   });
 });
 
+openStatsBtn.addEventListener("click", openStats);
+closeStatsBtn.addEventListener("click", closeStats);
+
 cartOverlay.addEventListener("click", (event) => {
-  if (event.target === cartOverlay) {
-    closeCart();
-  }
+  if (event.target === cartOverlay) closeCart();
 });
 
 rulesOverlay.addEventListener("click", (event) => {
-  if (event.target === rulesOverlay) {
-    closeRules();
-  }
+  if (event.target === rulesOverlay) closeRules();
 });
 
 detailsOverlay.addEventListener("click", (event) => {
-  if (event.target === detailsOverlay) {
-    closeDetails();
-  }
+  if (event.target === detailsOverlay) closeDetails();
 });
 
 balanceOverlay.addEventListener("click", (event) => {
-  if (event.target === balanceOverlay) {
-    closeBalanceMenu();
-  }
+  if (event.target === balanceOverlay) closeBalanceMenu();
+});
+
+statsOverlay.addEventListener("click", (event) => {
+  if (event.target === statsOverlay) closeStats();
 });
 
 updateBalance();
+updateStats();
 renderCart();
 resetDelivery();
