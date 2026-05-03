@@ -5,14 +5,18 @@
 body {
   margin: 0;
   font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  background: linear-gradient(135deg, #ffb6d9, #ffe6f2);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.8) 0 12px, transparent 13px),
+    radial-gradient(circle at 82% 12%, rgba(255, 209, 232, 0.9) 0 18px, transparent 19px),
+    radial-gradient(circle at 75% 70%, rgba(255, 255, 255, 0.45) 0 20px, transparent 21px),
+    linear-gradient(135deg, #ffb6d9, #ffe6f2);
   color: #3b1230;
   min-height: 100vh;
 }
 
 header {
   text-align: center;
-  padding: 95px 20px 25px;
+  padding: 140px 20px 25px;
 }
 
 .logo {
@@ -118,8 +122,6 @@ header {
   display: block;
 }
 
-/* Специально для МаШляпа 2:
-   показываем больше верха, не делаем маленькую марку в центре */
 .mahat2-box {
   background: #ffe1ef;
 }
@@ -195,7 +197,8 @@ button:active {
   }
 }
 
-.cart-overlay {
+.cart-overlay,
+.rules-overlay {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -206,15 +209,21 @@ button:active {
   padding: 20px;
 }
 
-.cart-overlay.active {
+.rules-overlay {
+  z-index: 120;
+}
+
+.cart-overlay.active,
+.rules-overlay.active {
   display: flex;
 }
 
-.cart-modal {
+.cart-modal,
+.rules-modal {
   width: min(560px, 100%);
   max-height: 85vh;
   overflow-y: auto;
-  background: #fff;
+  background: #fffafc;
   border: 5px solid #3b1230;
   border-radius: 30px;
   padding: 25px;
@@ -223,7 +232,8 @@ button:active {
   position: relative;
 }
 
-.close-cart {
+.close-cart,
+.close-rules {
   position: absolute;
   top: -18px;
   right: -18px;
@@ -298,13 +308,24 @@ button:active {
 
 .game {
   max-width: 650px;
-  margin: 20px auto 60px;
+  margin: 25px auto 60px;
   background: #fffafc;
   border: 5px solid #3b1230;
   border-radius: 30px;
   padding: 25px;
   text-align: center;
   box-shadow: 9px 9px 0 #ff7abb;
+  position: relative;
+}
+
+.rules-btn {
+  width: auto;
+  display: inline-block;
+  padding: 10px 18px;
+  margin-bottom: 12px;
+  background: #fff;
+  color: #3b1230;
+  border-radius: 999px;
 }
 
 .paw {
@@ -326,99 +347,17 @@ button:active {
   }
 }
 
-.pop {
-  animation: pop 0.25s ease;
+.game-stats {
+  margin: 16px 0;
+  display: grid;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 900;
 }
 
-@keyframes pop {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.12) rotate(-2deg);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 15px;
-  color: #6b3457;
-}
-
-@media (max-width: 600px) {
-  header {
-    padding-top: 120px;
-  }
-
-  .logo {
-    font-size: 34px;
-  }
-
-  .top-panel {
-    top: 10px;
-    left: 10px;
-    right: 10px;
-  }
-
-  .balance {
-    font-size: 12px;
-    padding: 10px 12px;
-  }
-
-  .rules-btn {
-  width: auto;
-  display: inline-block;
-  padding: 10px 18px;
-  margin-bottom: 12px;
-  background: #fff;
-  color: #3b1230;
-  border-radius: 999px;
-}
-
-.rules-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  background: rgba(59, 18, 48, 0.45);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.rules-overlay.active {
-  display: flex;
-}
-
-.rules-modal {
-  width: min(560px, 100%);
-  max-height: 85vh;
-  overflow-y: auto;
-  background: #fffafc;
-  border: 5px solid #3b1230;
-  border-radius: 30px;
-  padding: 25px;
-  box-shadow: 10px 10px 0 #ff4fa3;
-  text-align: center;
-  position: relative;
-}
-
-.close-rules {
-  position: absolute;
-  top: -18px;
-  right: -18px;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border-radius: 50%;
-  background: #ff5cad;
-  font-size: 30px;
+#lastDrop,
+#multiplier {
+  color: #ff2f99;
 }
 
 .rules-cat {
@@ -429,12 +368,14 @@ footer {
   border-radius: 24px;
   overflow: hidden;
   background: #ffe1ef;
+  position: relative;
 }
 
 .rules-cat video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .rules-modal p {
@@ -477,7 +418,61 @@ footer {
   }
 }
 
+.pop {
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.12) rotate(-2deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 15px;
+  color: #6b3457;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding-top: 130px;
+  }
+
+  .logo {
+    font-size: 34px;
+  }
+
+  .top-panel {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .balance {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
   .cart-btn {
     padding: 10px 12px;
+  }
+
+  .shop {
+    padding: 18px;
+  }
+
+  .cart-modal,
+  .rules-modal {
+    padding: 22px 18px;
   }
 }
