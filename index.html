@@ -7,35 +7,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
-<div class="rules-overlay" id="rulesOverlay">
-  <div class="rules-modal">
-    <button class="close-rules" id="closeRulesBtn">×</button>
-
-    <h2>❓ Правила КотоКликера</h2>
-
-    <div class="rules-cat">
-      <video src="images/mama_hat.mp4" autoplay loop muted playsinline></video>
-    </div>
-
-    <p>
-      Жми на котолапу и зарабатывай КотоКоины.
-      За каждый тык выпадает случайная награда от 1 до 5 КотоКоинов.
-    </p>
-
-    <p>
-      Иногда срабатывает <b>Крит-мяу x2</b>, а если повезёт —
-      <b>ДЖЕКПОТ-МЯУ x5</b> с фейерверками.
-    </p>
-
-    <p>
-      КотоКоины можно тратить на котов. Добавил кота в корзину —
-      монеты списались. Убрал кота — монеты вернулись.
-    </p>
-  </div>
-</div>
-
-<div class="fireworks" id="fireworks"></div>
-  
 <body>
   <div class="top-panel">
     <div class="balance">💰 <span id="balance">100</span> КотоКоинов</div>
@@ -59,6 +30,35 @@
       <div class="message" id="message"></div>
     </div>
   </div>
+
+  <div class="rules-overlay" id="rulesOverlay">
+    <div class="rules-modal">
+      <button class="close-rules" id="closeRulesBtn">×</button>
+
+      <h2>❓ Правила КотоКликера</h2>
+
+      <div class="rules-cat">
+        <video src="images/mama_hat.mp4" autoplay loop muted playsinline></video>
+      </div>
+
+      <p>
+        Жми на котолапу и зарабатывай КотоКоины.
+        За каждый тык выпадает случайная награда от 1 до 5 КотоКоинов.
+      </p>
+
+      <p>
+        Иногда срабатывает <b>Крит-мяу x2</b>, а если повезёт —
+        <b>ДЖЕКПОТ-МЯУ x5</b> с фейерверками.
+      </p>
+
+      <p>
+        КотоКоины можно тратить на котов. Добавил кота в корзину —
+        монеты списались. Убрал кота — монеты вернулись.
+      </p>
+    </div>
+  </div>
+
+  <div class="fireworks" id="fireworks"></div>
 
   <header>
     <div class="logo">МаМагазин</div>
@@ -118,23 +118,23 @@
   </main>
 
   <section class="game">
-  <button class="rules-btn" id="openRulesBtn">❓ Правила</button>
+    <button class="rules-btn" id="openRulesBtn">❓ Правила</button>
 
-  <h2>🐾 КотоКликер</h2>
-  <p>Жми на лапу: выпадет случайная награда от 1 до 5 КотоКоинов.</p>
+    <h2>🐾 КотоКликер</h2>
+    <p>Жми на лапу: выпадет случайная награда от 1 до 5 КотоКоинов.</p>
 
-  <button class="paw" id="earnBtn">🐾</button>
+    <button class="paw" id="earnBtn">🐾</button>
 
-  <div class="game-stats">
-    <div>Последний дроп: <span id="lastDrop">0</span> КотоКоинов</div>
-    <div>Множитель: <span id="multiplier">x1</span></div>
-  </div>
+    <div class="game-stats">
+      <div>Последний дроп: <span id="lastDrop">0</span> КотоКоинов</div>
+      <div>Множитель: <span id="multiplier">x1</span></div>
+    </div>
 
-  <div id="gameMessage">Иногда выпадает крит-мяу x2 или джекпот 😼</div>
-</section>
+    <div id="gameMessage">Иногда выпадает крит-мяу x2 или джекпот 😼</div>
+  </section>
 
   <footer>
-    © 2026 МаМагазин. telegram - @aerisgold
+    © 2026 МаМагазин. @aerisgold
   </footer>
 
   <script src="script.js"></script>
