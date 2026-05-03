@@ -15,6 +15,11 @@ const checkoutBtn = document.getElementById("checkoutBtn");
 const clearCartBtn = document.getElementById("clearCartBtn");
 const earnBtn = document.getElementById("earnBtn");
 
+const openRulesBtn = document.getElementById("openRulesBtn");
+const closeRulesBtn = document.getElementById("closeRulesBtn");
+const rulesOverlay = document.getElementById("rulesOverlay");
+const fireworksEl = document.getElementById("fireworks");
+
 function updateBalance() {
   balanceEl.textContent = balance;
 }
@@ -147,11 +152,68 @@ function checkout() {
   messageEl.textContent = "Мяу-заказ оформлен! Коты уже летят в Telegram 🐈";
 }
 
+function openRules() {
+  rulesOverlay.classList.add("active");
+}
+
+function closeRules() {
+  rulesOverlay.classList.remove("active");
+}
+
+function launchFireworks() {
+  fireworksEl.innerHTML = "";
+  fireworksEl.classList.add("active");
+
+  for (let i = 0; i < 60; i++) {
+    const particle = document.createElement("div");
+    particle.className = "firework";
+
+    const startX = Math.random() * window.innerWidth;
+    const startY = Math.random() * window.innerHeight * 0.6;
+
+    const moveX = (Math.random() - 0.5) * 260;
+    const moveY = (Math.random() - 0.5) * 260;
+
+    particle.style.left = `${startX}px`;
+    particle.style.top = `${startY}px`;
+    particle.style.setProperty("--x", `${moveX}px`);
+    particle.style.setProperty("--y", `${moveY}px`);
+
+    fireworksEl.appendChild(particle);
+  }
+
+  setTimeout(() => {
+    fireworksEl.classList.remove("active");
+    fireworksEl.innerHTML = "";
+  }, 1000);
+}
+
 function earnCoins() {
-  balance += 1;
+  const baseDrop = Math.floor(Math.random() * 5) + 1;
+
+  let multiplier = 1;
+  let bonusText = "Обычный тык 🐾";
+
+  const chance = Math.random();
+
+  if (chance < 0.05) {
+    multiplier = 5;
+    bonusText = "ДЖЕКПОТ-МЯУ! x5 😼🔥";
+    launchFireworks();
+  } else if (chance < 0.25) {
+    multiplier = 2;
+    bonusText = "Крит-мяу! x2 😺";
+  }
+
+  const reward = baseDrop * multiplier;
+
+  balance += reward;
   updateBalance();
 
-  gameMessageEl.textContent = "+1 КотоКоин! Котолапа довольна 🐾";
+  document.getElementById("lastDrop").textContent = reward;
+  document.getElementById("multiplier").textContent = `x${multiplier}`;
+
+  gameMessageEl.textContent = `+${reward} КотоКоинов. ${bonusText}`;
 
   animateElement(document.querySelector(".balance"));
   animateElement(earnBtn);
@@ -172,9 +234,18 @@ checkoutBtn.addEventListener("click", checkout);
 clearCartBtn.addEventListener("click", clearCart);
 earnBtn.addEventListener("click", earnCoins);
 
+openRulesBtn.addEventListener("click", openRules);
+closeRulesBtn.addEventListener("click", closeRules);
+
 cartOverlay.addEventListener("click", (event) => {
   if (event.target === cartOverlay) {
     closeCart();
+  }
+});
+
+rulesOverlay.addEventListener("click", (event) => {
+  if (event.target === rulesOverlay) {
+    closeRules();
   }
 });
 
