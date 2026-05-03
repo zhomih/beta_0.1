@@ -17,6 +17,7 @@ const closeCartBtn = document.getElementById("closeCartBtn");
 const checkoutBtn = document.getElementById("checkoutBtn");
 const clearCartBtn = document.getElementById("clearCartBtn");
 const earnBtn = document.getElementById("earnBtn");
+const earnHelpBtn = document.getElementById("earnHelpBtn");
 
 const openRulesBtn = document.getElementById("openRulesBtn");
 const closeRulesBtn = document.getElementById("closeRulesBtn");
@@ -36,6 +37,66 @@ const curseSpendBtn = document.getElementById("curseSpendBtn");
 const curseEarnBtn = document.getElementById("curseEarnBtn");
 const keep67Btn = document.getElementById("keep67Btn");
 const screamerOverlay = document.getElementById("screamerOverlay");
+
+const detailsOverlay = document.getElementById("detailsOverlay");
+const closeDetailsBtn = document.getElementById("closeDetailsBtn");
+const detailsTitle = document.getElementById("detailsTitle");
+const detailsVideo = document.getElementById("detailsVideo");
+const detailsText = document.getElementById("detailsText");
+const detailsStats = document.getElementById("detailsStats");
+
+const catDetails = {
+  mini: {
+    title: "МаМини",
+    video: "images/mama_mini.MP4",
+    text: "Маленький кот с огромным самомнением. Делает вид, что ничего не понимает, но уже посчитал твой баланс.",
+    stats: [
+      "Редкость: маленькая легенда",
+      "Любимая еда: крошка рыбки",
+      "Риск побега: 12%"
+    ]
+  },
+  pineapple: {
+    title: "Ананасовый Ма",
+    video: "images/mama_pineapple.mp4",
+    text: "Кот в ананасовой броне. Выглядит как фрукт, но внутри бизнес-план и лёгкое осуждение.",
+    stats: [
+      "Редкость: тропический",
+      "Любимая еда: лосось с зонтиком",
+      "Риск побега: 34%"
+    ]
+  },
+  cute: {
+    title: "МаМилашка",
+    video: "images/mama_cute.mp4",
+    text: "Слишком милый кот. Опасность в том, что после просмотра хочется отдать ему все КотоКоины.",
+    stats: [
+      "Редкость: милая угроза",
+      "Любимая еда: комплименты",
+      "Риск побега: 5%"
+    ]
+  },
+  hat2: {
+    title: "МаШляпа 2",
+    video: "images/mama_another_hat.mp4",
+    text: "Кот, который знает про стиль больше, чем весь подъезд. Смотрит прямо в душу и требует уважения.",
+    stats: [
+      "Редкость: модный босс",
+      "Любимая еда: внимание",
+      "Риск побега: 67%"
+    ]
+  },
+  hat: {
+    title: "МаШляпа",
+    video: "images/mama_hat.mp4",
+    text: "Главная модница МаМагазина. Может ничего не делать, но всё равно выглядит как владелец бренда.",
+    stats: [
+      "Редкость: легендарная",
+      "Любимая еда: розовый корм",
+      "Риск побега: 22%"
+    ]
+  }
+};
 
 const deliveryPhrases = [
   "Выбежал из сайта 🐈",
@@ -72,6 +133,14 @@ const deliveryPhrases = [
 
 function updateBalance() {
   balanceEl.textContent = balance;
+
+  if (earnHelpBtn) {
+    if (balance < 25) {
+      earnHelpBtn.classList.add("active");
+    } else {
+      earnHelpBtn.classList.remove("active");
+    }
+  }
 }
 
 function getCartTotal() {
@@ -306,6 +375,25 @@ function closeRules() {
   rulesOverlay.classList.remove("active");
 }
 
+function openDetails(catKey) {
+  const cat = catDetails[catKey];
+
+  if (!cat) return;
+
+  detailsTitle.textContent = cat.title;
+  detailsVideo.src = cat.video;
+  detailsText.textContent = cat.text;
+  detailsStats.innerHTML = cat.stats.map((item) => `<div>${item}</div>`).join("");
+
+  detailsOverlay.classList.add("active");
+}
+
+function closeDetails() {
+  detailsOverlay.classList.remove("active");
+  detailsVideo.pause();
+  detailsVideo.src = "";
+}
+
 function launchFireworks() {
   fireworksEl.innerHTML = "";
   fireworksEl.classList.add("active");
@@ -397,11 +485,26 @@ document.querySelectorAll(".buy-btn").forEach((button) => {
   });
 });
 
+document.querySelectorAll(".details-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    openDetails(button.dataset.cat);
+  });
+});
+
 openCartBtn.addEventListener("click", openCart);
 closeCartBtn.addEventListener("click", closeCart);
 checkoutBtn.addEventListener("click", checkout);
 clearCartBtn.addEventListener("click", clearCart);
 earnBtn.addEventListener("click", earnCoins);
+
+if (earnHelpBtn) {
+  earnHelpBtn.addEventListener("click", () => {
+    document.querySelector(".game").scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  });
+}
 
 openRulesBtn.addEventListener("click", openRules);
 closeRulesBtn.addEventListener("click", closeRules);
@@ -413,6 +516,8 @@ curseSpendBtn.addEventListener("click", curseSpend);
 curseEarnBtn.addEventListener("click", curseEarn);
 keep67Btn.addEventListener("click", keep67);
 
+closeDetailsBtn.addEventListener("click", closeDetails);
+
 cartOverlay.addEventListener("click", (event) => {
   if (event.target === cartOverlay) {
     closeCart();
@@ -422,6 +527,12 @@ cartOverlay.addEventListener("click", (event) => {
 rulesOverlay.addEventListener("click", (event) => {
   if (event.target === rulesOverlay) {
     closeRules();
+  }
+});
+
+detailsOverlay.addEventListener("click", (event) => {
+  if (event.target === detailsOverlay) {
+    closeDetails();
   }
 });
 
