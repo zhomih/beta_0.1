@@ -3,51 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>МаМагазин - Лучший маркетплейс</title>
+  <title>МаМагазин — коты-гивки</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <div class="top-panel">
-    <div class="balance">💰 <span id="balance">100</span> КотоКоинов</div>
+    <div class="balance">💰 <span id="balance">107</span> КотоКоинов</div>
     <button class="cart-btn" id="openCartBtn">🛒 <span id="cartCount">0</span></button>
   </div>
 
   <div class="cart-overlay" id="cartOverlay">
-  <div class="cart-modal">
-    <button class="close-cart" id="closeCartBtn">×</button>
+    <div class="cart-modal">
+      <button class="close-cart" id="closeCartBtn">×</button>
 
-    <h2>🛒 Мяу-корзина</h2>
-    <div id="cartItems">Пока пусто. Коты обижены.</div>
+      <h2>🛒 Мяу-корзина</h2>
+      <div id="cartItems">Пока пусто. Коты обижены.</div>
 
-    <div class="cart-total">
-      В корзине: <span id="cartTotal">0</span> КотоКоинов
+      <div class="cart-total">
+        В корзине: <span id="cartTotal">0</span> КотоКоинов
+      </div>
+
+      <button class="checkout" id="checkoutBtn">Оформить мяу-заказ</button>
+      <button class="clear" id="clearCartBtn">Очистить корзину</button>
+
+      <div class="delivery" id="deliveryBox">
+        <h3>🚚 Статус доставки кота</h3>
+
+        <div class="delivery-track">
+          <div class="delivery-fill" id="deliveryFill"></div>
+          <div class="delivery-cat" id="deliveryCat">🐈</div>
+        </div>
+
+        <div class="delivery-status" id="deliveryStatus">
+          Кот пока сидит в корзине.
+        </div>
+
+        <div class="delivery-actions" id="deliveryActions">
+          <button id="receivedBtn">Я получил заказ</button>
+          <button class="sad-btn" id="missingBtn">Кота нет 😿</button>
+        </div>
+      </div>
+
+      <div class="message" id="message"></div>
     </div>
-
-    <button class="checkout" id="checkoutBtn">Оформить мяу-заказ</button>
-    <button class="clear" id="clearCartBtn">Очистить корзину</button>
-
-    <div class="delivery" id="deliveryBox">
-      <h3>🚚 Статус доставки кота</h3>
-
-      <div class="delivery-track">
-        <div class="delivery-fill" id="deliveryFill"></div>
-        <div class="delivery-cat" id="deliveryCat">🐈</div>
-      </div>
-
-      <div class="delivery-status" id="deliveryStatus">
-        Кот пока сидит в корзине.
-      </div>
-
-      <div class="delivery-actions" id="deliveryActions">
-        <button id="receivedBtn">Я получил заказ</button>
-        <button class="sad-btn" id="missingBtn">Кота нет 😿</button>
-      </div>
-    </div>
-
-    <div class="message" id="message"></div>
   </div>
-</div>
 
   <div class="rules-overlay" id="rulesOverlay">
     <div class="rules-modal">
@@ -77,6 +77,28 @@
   </div>
 
   <div class="fireworks" id="fireworks"></div>
+
+  <div class="curse-overlay" id="curseOverlay">
+    <div class="curse-modal">
+      <h2>67</h2>
+      <p>
+        Число КотоКоинов — 67.<br>
+        Срочно потратьте или заработайте новые.
+      </p>
+
+      <div class="curse-actions">
+        <button id="curseSpendBtn">Потратить</button>
+        <button id="curseEarnBtn">Заработать новые</button>
+      </div>
+
+      <button class="keep-67" id="keep67Btn">оставить такой баланс</button>
+    </div>
+  </div>
+
+  <div class="screamer-overlay" id="screamerOverlay">
+    <video src="images/mama_another_hat.mp4" autoplay muted playsinline></video>
+    <div>МЯУ.</div>
+  </div>
 
   <header>
     <div class="logo">МаМагазин</div>
