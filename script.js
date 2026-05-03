@@ -1,114 +1,182 @@
 let balance = 100;
 const cart = [];
 
+const balanceEl = document.getElementById("balance");
+const cartCountEl = document.getElementById("cartCount");
+const cartItemsEl = document.getElementById("cartItems");
+const cartTotalEl = document.getElementById("cartTotal");
+const messageEl = document.getElementById("message");
+const gameMessageEl = document.getElementById("gameMessage");
+
+const cartOverlay = document.getElementById("cartOverlay");
+const openCartBtn = document.getElementById("openCartBtn");
+const closeCartBtn = document.getElementById("closeCartBtn");
+const checkoutBtn = document.getElementById("checkoutBtn");
+const clearCartBtn = document.getElementById("clearCartBtn");
+const earnBtn = document.getElementById("earnBtn");
+
 function updateBalance() {
-  document.getElementById("balance").textContent = balance;
+  balanceEl.textContent = balance;
 }
 
-function addToCart(name, price) {
-  cart.push({ name, price });
-  renderCart();
+function getCartTotal() {
+  return cart.reduce((sum, item) => sum + item.price, 0);
+}
 
-  const message = document.getElementById("message");
-  if (message) {
-    message.textContent = `${name} добавлен в корзину 🐾`;
-  }
+function animateElement(element) {
+  if (!element) return;
 
-  animateBalance();
+  element.classList.remove("pop");
+  void element.offsetWidth;
+  element.classList.add("pop");
+}
+
+function animateButton(button) {
+  if (!button) return;
+
+  button.classList.remove("button-pop");
+  void button.offsetWidth;
+  button.classList.add("button-pop");
 }
 
 function renderCart() {
-  const cartItems = document.getElementById("cartItems");
-  const cartCount = document.getElementById("cartCount");
-  const cartTotal = document.getElementById("cartTotal");
-
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-  cartCount.textContent = cart.length;
-  cartTotal.textContent = total;
+  cartCountEl.textContent = cart.length;
+  cartTotalEl.textContent = getCartTotal();
 
   if (cart.length === 0) {
-    cartItems.textContent = "Пока пусто. Коты обижены.";
+    cartItemsEl.textContent = "Пока пусто. Коты обижены.";
     return;
   }
 
-  cartItems.innerHTML = cart
-    .map((item, index) => `${index + 1}. ${item.name} — ${item.price} КотоКоинов`)
-    .join("<br>");
+  cartItemsEl.innerHTML = cart
+    .map((item, index) => {
+      return `
+        <div class="cart-row">
+          <div class="cart-row-info">
+            <div>${item.name}</div>
+            <div class="cart-row-price">${item.price} КотоКоинов</div>
+          </div>
+          <button class="remove-item" data-index="${index}">×</button>
+        </div>
+      `;
+    })
+    .join("");
+
+  document.querySelectorAll(".remove-item").forEach((button) => {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.index);
+      removeFromCart(index);
+    });
+  });
+}
+
+function addToCart(name, price, button) {
+  if (balance < price) {
+    messageEl.textContent = `Не хватает ${price - balance} КотоКоинов. Иди тыкать лапу 🐾`;
+    openCart();
+    animateElement(document.querySelector(".balance"));
+    return;
+  }
+
+  balance -= price;
+
+  cart.push({
+    name,
+    price
+  });
+
+  updateBalance();
+  renderCart();
+  animateElement(document.querySelector(".balance"));
+  animateButton(button);
+
+  messageEl.textContent = `${name} добавлен в корзину. Списано ${price} КотоКоинов 🐾`;
+}
+
+function removeFromCart(index) {
+  const item = cart[index];
+
+  if (!item) return;
+
+  balance += item.price;
+  cart.splice(index, 1);
+
+  updateBalance();
+  renderCart();
+  animateElement(document.querySelector(".balance"));
+
+  messageEl.textContent = `${item.name} убран из корзины. Вернули ${item.price} КотоКоинов 😼`;
+}
+
+function clearCart() {
+  const refund = getCartTotal();
+
+  if (cart.length === 0) {
+    messageEl.textContent = "Корзина и так пустая, бро.";
+    return;
+  }
+
+  balance += refund;
+  cart.length = 0;
+
+  updateBalance();
+  renderCart();
+  animateElement(document.querySelector(".balance"));
+
+  messageEl.textContent = `Корзина очищена. Вернули ${refund} КотоКоинов.`;
 }
 
 function openCart() {
-  document.getElementById("cartOverlay").classList.add("active");
+  cartOverlay.classList.add("active");
   renderCart();
 }
 
 function closeCart() {
-  document.getElementById("cartOverlay").classList.remove("active");
+  cartOverlay.classList.remove("active");
 }
 
 function checkout() {
-  const message = document.getElementById("message");
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
-
   if (cart.length === 0) {
-    message.textContent = "Сначала выбери кота, бро 😭";
+    messageEl.textContent = "Сначала выбери кота, бро 😭";
     return;
   }
 
-  if (balance < total) {
-    message.textContent = `Не хватает ${total - balance} КотоКоинов. Иди тыкать лапу 🐾`;
-    return;
-  }
-
-  balance = balance - total;
-  cart.length = 0;
-
-  updateBalance();
-  renderCart();
-  animateBalance();
-
-  message.textContent = `Покупка успешна! Списано ${total} КотоКоинов 🐈`;
-}
-
-  balance -= total;
-  cart.length = 0;
-
-  updateBalance();
-  renderCart();
-
-  message.textContent = "Покупка успешна! Коты уже летят в Telegram 🐈";
-  animateBalance();
-}
-
-function clearCart() {
   cart.length = 0;
   renderCart();
 
-  const message = document.getElementById("message");
-  message.textContent = "Корзина очищена. Коты ушли грустить.";
+  messageEl.textContent = "Мяу-заказ оформлен! Коты уже летят в Telegram 🐈";
 }
 
 function earnCoins() {
   balance += 1;
   updateBalance();
 
-  const gameMessage = document.getElementById("gameMessage");
-  gameMessage.textContent = "+1 КотоКоин! Котолапа довольна 🐾";
+  gameMessageEl.textContent = "+1 КотоКоин! Котолапа довольна 🐾";
 
-  const paw = document.querySelector(".paw");
-  paw.classList.remove("pop");
-  void paw.offsetWidth;
-  paw.classList.add("pop");
-
-  animateBalance();
+  animateElement(document.querySelector(".balance"));
+  animateElement(earnBtn);
 }
 
-function animateBalance() {
-  const balanceBox = document.querySelector(".balance");
-  balanceBox.classList.remove("pop");
-  void balanceBox.offsetWidth;
-  balanceBox.classList.add("pop");
-}
+document.querySelectorAll(".buy-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    const name = button.dataset.name;
+    const price = Number(button.dataset.price);
+
+    addToCart(name, price, button);
+  });
+});
+
+openCartBtn.addEventListener("click", openCart);
+closeCartBtn.addEventListener("click", closeCart);
+checkoutBtn.addEventListener("click", checkout);
+clearCartBtn.addEventListener("click", clearCart);
+earnBtn.addEventListener("click", earnCoins);
+
+cartOverlay.addEventListener("click", (event) => {
+  if (event.target === cartOverlay) {
+    closeCart();
+  }
+});
 
 updateBalance();
 renderCart();
