@@ -1,6 +1,3 @@
-Конечно, бро. Вот весь `script.js` целиком, уже с ползунком громкости:
-
-```js
 let balance = 107;
 const cart = [];
 
@@ -812,4 +809,3 @@ updateStats();
 renderCart();
 resetDelivery();
 updateVolume();
-```
