@@ -513,7 +513,7 @@ footer {
   width: 0%;
   background: #ff5cad;
   border-radius: 999px;
-  transition: width 0.5s ease;
+  transition: width 2.6s ease;
 }
 
 .delivery-cat {
@@ -522,7 +522,7 @@ footer {
   left: 0%;
   transform: translate(-50%, -58%);
   font-size: 30px;
-  transition: left 0.5s ease;
+  transition: left 2.6s ease;
   z-index: 2;
 }
 
