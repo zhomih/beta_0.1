@@ -14,22 +14,40 @@
   </div>
 
   <div class="cart-overlay" id="cartOverlay">
-    <div class="cart-modal">
-      <button class="close-cart" id="closeCartBtn">×</button>
+  <div class="cart-modal">
+    <button class="close-cart" id="closeCartBtn">×</button>
 
-      <h2>🛒 Мяу-корзина</h2>
-      <div id="cartItems">Пока пусто. Коты обижены.</div>
+    <h2>🛒 Мяу-корзина</h2>
+    <div id="cartItems">Пока пусто. Коты обижены.</div>
 
-      <div class="cart-total">
-        В корзине: <span id="cartTotal">0</span> КотоКоинов
+    <div class="cart-total">
+      В корзине: <span id="cartTotal">0</span> КотоКоинов
+    </div>
+
+    <button class="checkout" id="checkoutBtn">Оформить мяу-заказ</button>
+    <button class="clear" id="clearCartBtn">Очистить корзину</button>
+
+    <div class="delivery" id="deliveryBox">
+      <h3>🚚 Статус доставки кота</h3>
+
+      <div class="delivery-track">
+        <div class="delivery-fill" id="deliveryFill"></div>
+        <div class="delivery-cat" id="deliveryCat">🐈</div>
       </div>
 
-      <button class="checkout" id="checkoutBtn">Оформить мяу-заказ</button>
-      <button class="clear" id="clearCartBtn">Очистить корзину</button>
+      <div class="delivery-status" id="deliveryStatus">
+        Кот пока сидит в корзине.
+      </div>
 
-      <div class="message" id="message"></div>
+      <div class="delivery-actions" id="deliveryActions">
+        <button id="receivedBtn">Я получил заказ</button>
+        <button class="sad-btn" id="missingBtn">Кота нет 😿</button>
+      </div>
     </div>
+
+    <div class="message" id="message"></div>
   </div>
+</div>
 
   <div class="rules-overlay" id="rulesOverlay">
     <div class="rules-modal">
