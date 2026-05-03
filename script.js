@@ -11,9 +11,8 @@ const stats = {
 
 let deliveryInterval = null;
 let curseShownThisSession = false;
-let musicStarted = false;
-let musicAudio = null;
-let musicTimer = null;
+let currentSong = null;
+let currentSongName = "";
 
 const $ = (id) => document.getElementById(id);
 
@@ -76,6 +75,13 @@ const statSpent = $("statSpent");
 const statEarned = $("statEarned");
 const statPromos = $("statPromos");
 
+const openSongsBtn = $("openSongsBtn");
+const songsOverlay = $("songsOverlay");
+const closeSongsBtn = $("closeSongsBtn");
+const pauseSongBtn = $("pauseSongBtn");
+const stopSongBtn = $("stopSongBtn");
+const songMessage = $("songMessage");
+
 const usedPromos = new Set();
 
 const catDetails = {
@@ -118,7 +124,7 @@ const deliveryPhrases = [
   "Едет на поезде без билета 🚆",
   "Проверяет адрес лапкой 🐾",
   "Застрял в розовом пакете 🎀",
-  "Спорит с курьером-мяу 📦",
+  "Спорит с курьером-кот 📦",
   "Покупает себе рыбку по дороге 🐟",
   "Пытается открыть домофон носом 👃",
   "Сел на лавочку подумать о жизни 🪑",
@@ -362,7 +368,7 @@ function checkout() {
   cart.length = 0;
   renderCart();
 
-  messageEl.textContent = "Мяу-заказ оформлен! Запускаем доставку кота 🐈";
+  messageEl.textContent = "Кото-заказ оформлен! Запускаем доставку кота 🐈";
   startDelivery();
 }
 
@@ -379,7 +385,7 @@ function orderReceived() {
 function orderMissing() {
   messageEl.textContent =
     "Кота нет, потому что это шуточная игра 😭 Настоящие коты через сайт не доставляются. Но МаМагазин всё равно ценит твоё терпение.";
-  deliveryStatus.textContent = "Курьер-мяу растворился в мемах 😿";
+  deliveryStatus.textContent = "Курьер-кот растворился в мемах 😿";
   deliveryActions.classList.remove("active");
 }
 
@@ -491,49 +497,7 @@ function megaMommyEffect() {
   }, 3000);
 }
 
-function startFunnyMusic() {
-  if (musicStarted) return;
-
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  const audio = new AudioContext();
-
-  musicAudio = audio;
-  musicStarted = true;
-
-  const melody = [
-    523, 659, 784, 659,
-    587, 698, 880, 698,
-    523, 659, 784, 1046
-  ];
-
-  let index = 0;
-
-  musicTimer = setInterval(() => {
-    if (!musicStarted) return;
-
-    const osc = audio.createOscillator();
-    const gain = audio.createGain();
-
-    osc.type = "triangle";
-    osc.frequency.value = melody[index % melody.length];
-
-    gain.gain.setValueAtTime(0.0001, audio.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.045, audio.currentTime + 0.03);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.22);
-
-    osc.connect(gain);
-    gain.connect(audio.destination);
-
-    osc.start();
-    osc.stop(audio.currentTime + 0.25);
-
-    index++;
-  }, 260);
-}
-
 function earnCoins() {
-  startFunnyMusic();
-
   const baseDrop = Math.floor(Math.random() * 5) + 1;
 
   let multiplier = 1;
@@ -543,11 +507,11 @@ function earnCoins() {
 
   if (chance < 0.05) {
     multiplier = 5;
-    bonusText = "ДЖЕКПОТ-МЯУ! x5 😼🔥";
+    bonusText = "ДЖЕКПОТ-КОТ! x5 😼🔥";
     launchFireworks();
   } else if (chance < 0.25) {
     multiplier = 2;
-    bonusText = "Крит-мяу! x2 😺";
+    bonusText = "Крит-кот! x2 😺";
   }
 
   const reward = baseDrop * multiplier;
@@ -602,11 +566,63 @@ function closeBalanceMenu() {
 function openStats() {
   updateStats();
   statsOverlay.classList.add("active");
-  startFunnyMusic();
 }
 
 function closeStats() {
   statsOverlay.classList.remove("active");
+}
+
+function openSongs() {
+  songsOverlay.classList.add("active");
+}
+
+function closeSongs() {
+  songsOverlay.classList.remove("active");
+}
+
+function playSong(src, name) {
+  if (currentSong) {
+    currentSong.pause();
+  }
+
+  currentSong = new Audio(src);
+  currentSong.loop = true;
+  currentSong.volume = 0.45;
+  currentSongName = name;
+
+  currentSong.play()
+    .then(() => {
+      songMessage.textContent = `Сейчас играет: ${name} 🎵`;
+    })
+    .catch(() => {
+      songMessage.textContent = "Браузер не дал включить песню. Нажми ещё раз 😭";
+    });
+}
+
+function pauseSong() {
+  if (!currentSong) {
+    songMessage.textContent = "Сначала выбери песню.";
+    return;
+  }
+
+  if (currentSong.paused) {
+    currentSong.play();
+    songMessage.textContent = `Продолжаем: ${currentSongName} 🎵`;
+  } else {
+    currentSong.pause();
+    songMessage.textContent = `Пауза: ${currentSongName}`;
+  }
+}
+
+function stopSong() {
+  if (!currentSong) {
+    songMessage.textContent = "Музыка и так молчит.";
+    return;
+  }
+
+  currentSong.pause();
+  currentSong.currentTime = 0;
+  songMessage.textContent = "Песня остановлена.";
 }
 
 function applyPromo() {
@@ -687,6 +703,12 @@ document.querySelectorAll(".details-btn").forEach((button) => {
   });
 });
 
+document.querySelectorAll(".song-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    playSong(button.dataset.src, button.textContent.replace("▶️", "").trim());
+  });
+});
+
 openCartBtn.addEventListener("click", openCart);
 closeCartBtn.addEventListener("click", closeCart);
 checkoutBtn.addEventListener("click", checkout);
@@ -726,6 +748,11 @@ earnFromMenuBtn.addEventListener("click", () => {
 openStatsBtn.addEventListener("click", openStats);
 closeStatsBtn.addEventListener("click", closeStats);
 
+openSongsBtn.addEventListener("click", openSongs);
+closeSongsBtn.addEventListener("click", closeSongs);
+pauseSongBtn.addEventListener("click", pauseSong);
+stopSongBtn.addEventListener("click", stopSong);
+
 cartOverlay.addEventListener("click", (event) => {
   if (event.target === cartOverlay) closeCart();
 });
@@ -744,6 +771,10 @@ balanceOverlay.addEventListener("click", (event) => {
 
 statsOverlay.addEventListener("click", (event) => {
   if (event.target === statsOverlay) closeStats();
+});
+
+songsOverlay.addEventListener("click", (event) => {
+  if (event.target === songsOverlay) closeSongs();
 });
 
 updateBalance();
