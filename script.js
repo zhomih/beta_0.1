@@ -60,6 +60,16 @@ function checkout() {
     return;
   }
 
+  balance = balance - total;
+  cart.length = 0;
+
+  updateBalance();
+  renderCart();
+  animateBalance();
+
+  message.textContent = `Покупка успешна! Списано ${total} КотоКоинов 🐈`;
+}
+
   balance -= total;
   cart.length = 0;
 
