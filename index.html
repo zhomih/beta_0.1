@@ -2,49 +2,66 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>МаМагазин — коты-гивки</title>
-
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <header>
     <div class="logo">МаМагазин</div>
-    <p class="subtitle">Самый нелегальный легальный магазин котов-гивок из Telegram 🐈</p>
+    <p class="subtitle">Розовая витрина котов-гивок. Покупка за муркоины 🐾</p>
   </header>
 
   <main class="shop">
     <div class="card">
-      <div class="cat">😾</div>
-      <h2>Кот “Бухгалтер”</h2>
-      <p class="desc">Смотрит на твои траты и молча осуждает.</p>
+      <div class="cat">
+        <video src="images/mama_mini.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <h2>МаМини</h2>
+      <p class="desc">Маленький кот, большая важность.</p>
       <div class="price">Цена: 3 рыбки</div>
-      <button onclick="addToCart('Кот “Бухгалтер”')">В корзину</button>
+      <button onclick="addToCart('МаМини')">В корзину</button>
     </div>
 
     <div class="card">
-      <div class="cat">😺</div>
-      <h2>Кот “Бизнесмен”</h2>
-      <p class="desc">Открыл стартап, продал воздух, купил лосось.</p>
+      <div class="cat">
+        <video src="images/mama_pineapple.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <h2>Ананасовый Ма</h2>
+      <p class="desc">Выглядит мило, но явно что-то планирует.</p>
       <div class="price">Цена: 999 муркоинов</div>
-      <button onclick="addToCart('Кот “Бизнесмен”')">В корзину</button>
+      <button onclick="addToCart('Ананасовый Ма')">В корзину</button>
     </div>
 
     <div class="card">
-      <div class="cat">🙀</div>
-      <h2>Кот “Паникёр”</h2>
-      <p class="desc">Увидел дедлайн и теперь живёт под диваном.</p>
-      <div class="price">Цена: 1 нерв</div>
-      <button onclick="addToCart('Кот “Паникёр”')">В корзину</button>
-    </div>
-
-    <div class="card">
-      <div class="cat">😽</div>
-      <h2>Кот “Романтик”</h2>
-      <p class="desc">Присылает сердечки, но не отвечает 3 дня.</p>
+      <div class="cat">
+        <video src="images/mama_cute.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <h2>МаМилашка</h2>
+      <p class="desc">Слишком милый. Подозрительно.</p>
       <div class="price">Цена: 7 лайков</div>
-      <button onclick="addToCart('Кот “Романтик”')">В корзину</button>
+      <button onclick="addToCart('МаМилашка')">В корзину</button>
+    </div>
+
+    <div class="card">
+      <div class="cat">
+        <video src="images/mama_another_hat.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <h2>МаШляпа 2</h2>
+      <p class="desc">Когда стиль есть, а вопросов больше.</p>
+      <div class="price">Цена: 1 нерв</div>
+      <button onclick="addToCart('МаШляпа 2')">В корзину</button>
+    </div>
+
+    <div class="card">
+      <div class="cat">
+        <video src="images/mama_hat.mp4" autoplay loop muted playsinline></video>
+      </div>
+      <h2>МаШляпа</h2>
+      <p class="desc">Главная модница всего МаМагазина.</p>
+      <div class="price">Цена: 12 комплиментов</div>
+      <button onclick="addToCart('МаШляпа')">В корзину</button>
     </div>
   </main>
 
@@ -52,11 +69,12 @@
     <h2>🛒 Мяу-корзина</h2>
     <div id="cartItems">Пока пусто. Коты обижены.</div>
     <button class="checkout" onclick="checkout()">Оформить мяу-заказ</button>
+    <button class="clear" onclick="clearCart()">Очистить корзину</button>
     <div class="message" id="message"></div>
   </section>
 
   <footer>
-    © 2026 МаМагазин. Возврат невозможен: кот уже привязался.
+    © 2026 МаМагазин
   </footer>
 
   <script src="script.js"></script>
