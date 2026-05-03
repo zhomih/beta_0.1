@@ -1,310 +1,82 @@
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
+
 body {
-position: absolute;
-width: 350px;
-height: 650px;
-background-color: rgb(0, 0, 0);
+  margin: 0;
+  font-family: "Comic Sans MS", sans-serif;
+  background:
+    radial-gradient(circle at 10% 20%, #fff 0 12px, transparent 13px),
+    radial-gradient(circle at 80% 10%, #ffd1e8 0 18px, transparent 19px),
+    linear-gradient(135deg, #ffb6d9, #ffe6f2);
+  color: #3b1230;
 }
 
-#tblc{
-  position: absolute;
-  color: rgb(255, 255, 255);
-  font-family: 'Rubik', sans-serif;
-  font-size: 69px;
-  font-weight: 400;
-  line-height: 85px;
-  letter-spacing: -0.24px;
+header {
   text-align: center;
-  top: 160px;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  padding: 50px 20px 30px;
 }
 
-#nav_bar{
-position: absolute;
-width: 309px;
-height: 75px;
-left: 35px;
-right: 643.25px;
-top: 570px;
-bottom: 67px;
-border-radius: 17px;
-background: rgb(255, 255, 255);
+.logo {
+  display: inline-block;
+  background: #fff;
+  border: 5px solid #3b1230;
+  border-radius: 28px;
+  padding: 18px 32px;
+  font-size: 48px;
+  font-weight: 900;
+  box-shadow: 8px 8px 0 #ff4fa3;
 }
 
-#hole{
-  position: absolute;
-width: 193px;
-height: 193px;
-left: 84px;
-top: 250px;
-box-sizing: border-box;
+.subtitle {
+  margin-top: 20px;
 }
 
-#hole_grad{
-position: absolute;
-width: 193px;
-height: 193px;
-left: 45px;
-top: 205px;
-box-sizing: border-box;
+.shop {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
 }
 
-#void{
-position: absolute;
-width: 81px;
-height: 90px;
-position: absolute;
-left: 149px;
-top: 570px;
-color: rgb(255, 255, 255);
-font-family: 'Rubik', sans-serif;
-font-size: 18px;
-font-weight: 400;
-line-height: 31px;
-letter-spacing: -0.24px;
-text-align: center;
-z-index: 2;
-border: none;
-background-color: #00000000;
-}  
-
-#holepng{
-  position: absolute;
-  left: 143px;
-  top: 545px;
-  width: 89px;
-  height: 73px;
-  z-index: 1;
+.card {
+  background: #fffafc;
+  border: 4px solid #3b1230;
+  border-radius: 28px;
+  padding: 18px;
+  box-shadow: 7px 7px 0 #ff7abb;
 }
 
-#black_chul{
-  position: absolute;
-  border-radius: 16px;
-  width: 100px;
-  height: 82px;
-  background-color: rgb(0, 0, 0);
-  position: absolute;
-  left: 138px;
-  right: 100px;
-  top: 550px;
-  filter: blur(1px);
+.cat {
+  height: 150px;
+  border: 3px dashed #ff7abb;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70px;
+  margin-bottom: 15px;
 }
 
-#boosts{
-position: absolute;
-width: 85px;
-height: 94px;
-left: 240px;
-top: 545px;
-font-family: 'Rubik', sans-serif;
-font-weight: 100;
-font-size: 15px;
-letter-spacing: -0.02em;
-display: flex;
-flex-direction: column;
-justify-content: flex-end;
-align-items: center;
-bottom: 0;
-color: #000000;
-z-index: 1;
-background-color: rgba(0, 0, 0, 0);
-border: none;
-}
-
-#tasks{
-  /* Tasks */
-position: absolute;
-width: 85px;
-height: 94px;
-left: 50px;
-right: 1000.9px;
-top: 545px;
-bottom: 77.51px;
-color: rgb(0, 0, 0);
-font-family: 'Rubik', sans-serif;
-font-size: 15px;
-font-weight: 400;
-line-height: 19px;
-letter-spacing: -0.24px;
-display: flex;
-flex-direction: column;
-justify-content: flex-end;
-align-items: center;
-z-index: 1;
-border: none;
-background-color: rgba(10, 141, 255, 0);
-}
-
-#tap_button{
-position: absolute;
-width: 200px;
-height: 200px;
-left: 90px;
-top: 222px;
-z-index: 1;
-font-family: 'Rubik', sans-serif;
-font-weight: 100;
-font-size: 40px;
-background-color: rgba(173, 184, 195, 0);
-border: #00000000;
-}
-
-#boosts_icon{
+button {
+  width: 100%;
+  border: 3px solid #3b1230;
+  background: #ff5cad;
   color: white;
-  background-color: aliceblue;
-  position: absolute;
-  left: 378px;
-right: 680.25px;
-top: 910px;
-bottom: 78px;
-  
+  font-weight: bold;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
 }
 
-#white_perc{
-  position: absolute;
-  border-radius: 27px;
-width: 279px;
-height: 11px;
-  background-color: rgb(255, 255, 255);
-  left: 50px;
-right: 643.25px;
-top: 500px;
-bottom: 67px;
-z-index: 1;
+.cart {
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  border: 5px solid #3b1230;
+  border-radius: 25px;
+  padding: 20px;
+  text-align: center;
 }
-
-#gray_perc{
-  position: absolute;
-  border-radius: 27px;
-width: 285px;
-height: 15px;
-left: 47px;
-top: 498px;
-bottom: 67px;
-background-color: #666666;
-}
-
-#percenage{
-  position: absolute;
-  font-family: 'Rubik', sans-serif;
-font-weight: 400;
-font-size: 24px;
-letter-spacing: -0.01em;
-text-align: center;
-color: #fff;
-left: 160px;
-top: 520px;
-bottom: 67px;
-}
-
-#up_line{
-  position: absolute;
-  width: 369px;
-  height: 48px;
-  background-color: #fff;
-  left: 3px;
-  top: 1px;
-}
-
-#black_rank{
-border-radius: 150px;
-background-color: #000000;
-position: absolute;
-width: 114.33px;
-height: 30px;
-top: 70px;
-left: 50%;
-transform: translate(-50%, -50%);
-z-index: 1;
-}
-
-#rank{
-  position: absolute;
-  font-family: 'Rubik', sans-serif;
-text-align: center;
-color: #ffffff;
-z-index: 1;
-top: 60px;
-left: 47%;
-font-size: 17px;
-z-index: 1;
-}
-
-#rank_icon{
-  position: absolute;
-  top: 62px;
-left: 135px;
-z-index: 1;
-
-}
-
-#tg_id{
-  position: absolute;
-  font-family: 'Rubik', sans-serif;
-text-align: center;
-color: #000000;
-font-size: 22px;
-font-weight: 400;
-line-height: 27px;
-letter-spacing: -0.24px;
-text-align: center;
-z-index: 1;
-top: 15px;
-left: 50%;
-transform: translate(-50%, -50%);
-}
-
-#contact{
-  position: absolute;
-  font-family: 'Rubik', sans-serif;
-text-align: center;
-color: #000000;
-font-size: 17px;
-font-weight: 400;
-line-height: 27px;
-letter-spacing: -0.24px;
-text-align: center;
-z-index: 1;
-top: 28px;
-left: 80px;
-}
-
-#boosts_icon{
-  position: absolute;
-  left: 262px;
-  top: 580px;
-}
-
-#tasks_icon{
-  position: absolute;
-  left: 73px;
-  top: 580px;
-}
-
-#up_thing{
-  position: absolute;
-  border-radius: 1005px;
-  fill: #fff;
-  top: 28px;
-  left: 3px;
-}
-
-#wallet{
-  position: absolute;
-  z-index: 3;
-  right:1px;
-top: 20px;
-}
-
-#trofie{
-  position: absolute;
-  z-index: 3;
-  left: 20px;
-top: 20px;
-}
-
