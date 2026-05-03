@@ -32,14 +32,34 @@ let deliveryInterval = null;
 
 const deliveryPhrases = [
   "Выбежал из сайта 🐈",
-  "Пересекает дорогу, смотрит по сторонам 🚦",
+  "Ищет подъезд по запаху котлет 🥩",
+  "Пересекает дорогу и делает вид, что он главный 🚦",
   "Едет на поезде без билета 🚆",
-  "Спорит с курьером-мяу 📦",
-  "Застрял в розовом пакете 🎀",
   "Проверяет адрес лапкой 🐾",
+  "Застрял в розовом пакете 🎀",
+  "Спорит с курьером-мяу 📦",
   "Покупает себе рыбку по дороге 🐟",
-  "Почти у подъезда 😼",
-  "Слышит запах дома 🏠",
+  "Пытается открыть домофон носом 👃",
+  "Сел на лавочку подумать о жизни 🪑",
+  "Убеждает голубя уступить дорогу 🕊️",
+  "Проверяет, точно ли ты оплатил КотоКоинами 💰",
+  "Переходит через лужу как аристократ 💅",
+  "Случайно зашёл не в тот подъезд 🏢",
+  "Пишет маме, что почти приехал 📱",
+  "Остановился погладить самого себя 😼",
+  "Идёт по карте, но карта нарисована лапой 🗺️",
+  "Слишком красиво идёт, прохожие снимают сторис 📸",
+  "Пытается ехать на самокате 🛴",
+  "Упал, встал, сделал вид что так и надо 😾",
+  "Спросил дорогу у другого кота 🐈‍⬛",
+  "Несёт заказ, но подозрительно мурчит 📦",
+  "Забыл зачем шёл, но продолжил движение 🧠",
+  "Обходит собаку по дипломатическим причинам 🐕",
+  "Почти у дома, но решил пройтись красиво ✨",
+  "Зашёл в магазин за влажным кормом 🛒",
+  "Ускорился: почувствовал запах квартиры 🏠",
+  "Видит дверь и делает важное лицо 🚪",
+  "Стоит у коврика и ждёт оваций 🐾",
   "У двери 🚪"
 ];
 
@@ -177,7 +197,20 @@ function resetDelivery() {
   deliveryStatus.textContent = "Кот пока сидит в корзине.";
 }
 
+function getRandomDeliveryRoute() {
+  const finalPhrase = "У двери 🚪";
+
+  const phrasesWithoutFinal = deliveryPhrases.filter((phrase) => phrase !== finalPhrase);
+
+  const shuffled = [...phrasesWithoutFinal].sort(() => Math.random() - 0.5);
+
+  const selected = shuffled.slice(0, 6);
+
+  return [...selected, finalPhrase];
+}
+
 function startDelivery() {
+  const route = getRandomDeliveryRoute();
   let step = 0;
 
   deliveryBox.classList.add("active");
@@ -185,32 +218,43 @@ function startDelivery() {
 
   deliveryFill.style.width = "0%";
   deliveryCat.style.left = "0%";
-  deliveryStatus.textContent = "Кот собирает лапки в дорогу 🐾";
+  deliveryStatus.textContent = "Кот готовится к доставке 🐾";
 
   if (deliveryInterval) {
     clearInterval(deliveryInterval);
   }
 
-  deliveryInterval = setInterval(() => {
-    const progress = Math.min(100, Math.round((step / (deliveryPhrases.length - 1)) * 100));
-    const phrase = deliveryPhrases[step];
+  function moveDeliveryStep() {
+    const progress = Math.round((step / (route.length - 1)) * 100);
+    const phrase = route[step];
 
     deliveryFill.style.width = `${progress}%`;
     deliveryCat.style.left = `${progress}%`;
     deliveryStatus.textContent = phrase;
 
-    step++;
-
-    if (step >= deliveryPhrases.length) {
+    if (step >= route.length - 1) {
       clearInterval(deliveryInterval);
       deliveryInterval = null;
 
       deliveryFill.style.width = "100%";
       deliveryCat.style.left = "100%";
       deliveryStatus.textContent = "У двери 🚪";
-      deliveryActions.classList.add("active");
+
+      setTimeout(() => {
+        deliveryActions.classList.add("active");
+      }, 600);
+
+      return;
     }
-  }, 900);
+
+    step++;
+  }
+
+  moveDeliveryStep();
+
+  deliveryInterval = setInterval(() => {
+    moveDeliveryStep();
+  }, 3000);
 }
 
 function checkout() {
