@@ -664,22 +664,30 @@ footer {
   }
 
 .earn-help {
-  position: fixed;
-  top: 88px;
-  left: 28px;
-  z-index: 51;
-  width: auto;
-  display: none;
-  background: #3b1230;
-  color: #fff;
-  border-radius: 999px;
-  padding: 10px 16px;
-  font-size: 14px;
-  box-shadow: 4px 4px 0 #ff4fa3;
+  position: fixed !important;
+  top: 88px !important;
+  left: 28px !important;
+  right: auto !important;
+  z-index: 51 !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: 190px !important;
+
+  display: none !important;
+  background: #3b1230 !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  padding: 10px 16px !important;
+  font-size: 14px !important;
+  line-height: 1 !important;
+  box-shadow: 4px 4px 0 #ff4fa3 !important;
 }
 
 .earn-help.active {
-  display: inline-block;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
   .delivery-actions.active,
