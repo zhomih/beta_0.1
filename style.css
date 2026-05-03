@@ -1,213 +1,80 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
-  background: linear-gradient(135deg, #ffb6d9, #ffe6f2);
-  color: #3b1230;
-  min-height: 100vh;
-}
-
-header {
-  text-align: center;
-  padding: 45px 20px 25px;
-}
-
-.logo {
-  display: inline-block;
+.balance {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  z-index: 50;
   background: #fff;
-  border: 5px solid #3b1230;
-  border-radius: 28px;
-  padding: 18px 32px;
-  font-size: 48px;
+  border: 3px solid #3b1230;
+  border-radius: 999px;
+  padding: 12px 18px;
   font-weight: 900;
-  box-shadow: 8px 8px 0 #ff4fa3;
-  transform: rotate(-2deg);
-}
-
-.subtitle {
-  margin-top: 25px;
-  font-size: 20px;
-}
-
-.shop {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 25px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-}
-
-.card {
-  background: #fffafc;
-  border: 4px solid #3b1230;
-  border-radius: 28px;
-  padding: 18px;
-  box-shadow: 7px 7px 0 #ff7abb;
-  overflow: hidden;
-}
-
-.cat {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border: 3px dashed #ff7abb;
-  border-radius: 22px;
-  background: #ffe1ef;
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 15px;
-}
-
-.cat video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  display: block;
-}
-
-h2 {
-  margin: 5px 0;
-  font-size: 24px;
-}
-
-.desc {
-  font-size: 15px;
-  min-height: 55px;
-  color: #6b3457;
-}
-
-.price {
-  font-size: 21px;
-  font-weight: 900;
-  margin: 14px 0;
+  box-shadow: 4px 4px 0 #ff4fa3;
 }
 
 button {
-  width: 100%;
-  border: 3px solid #3b1230;
-  background: #ff5cad;
-  color: white;
-  font-size: 17px;
-  font-weight: 900;
-  border-radius: 18px;
-  padding: 12px;
-  cursor: pointer;
-  box-shadow: 4px 4px 0 #3b1230;
-  font-family: inherit;
-  margin-top: 8px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
 
-.cart {
-  max-width: 650px;
-  margin: 35px auto 60px;
-  background: #fff;
-  border: 5px solid #3b1230;
-  border-radius: 30px;
-  padding: 25px;
-  box-shadow: 9px 9px 0 #ff4fa3;
-  text-align: center;
+button:active {
+  transform: scale(0.94) rotate(-1deg);
+  box-shadow: 1px 1px 0 #3b1230;
 }
 
-#cartItems {
+.cat video.squash-video {
+  transform: scaleY(0.78) scaleX(1.08);
+  object-fit: cover;
+}
+
+.total {
   margin: 15px 0;
-  font-size: 18px;
-  min-height: 30px;
-  line-height: 1.6;
-}
-
-.checkout {
-  background: #3b1230;
-}
-
-.clear {
-  background: #ff9ccc;
-}
-
-.cart-btn {
-  position: fixed;
-  top: 22px;
-  right: 22px;
-  z-index: 50;
-  width: auto;
-  min-width: 76px;
-  padding: 12px 16px;
-  border-radius: 999px;
-  background: #fff;
-  color: #3b1230;
-}
-
-.cart-btn span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #ff5cad;
-  color: #fff;
-  border-radius: 999px;
-  min-width: 24px;
-  height: 24px;
-  margin-left: 5px;
-}
-
-.cart-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(59, 18, 48, 0.45);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.cart-overlay.active {
-  display: flex;
-}
-
-.cart-modal {
-  width: min(520px, 100%);
-  background: #fff;
-  border: 5px solid #3b1230;
-  border-radius: 30px;
-  padding: 25px;
-  box-shadow: 10px 10px 0 #ff4fa3;
-  text-align: center;
-  position: relative;
-}
-
-.close-cart {
-  position: absolute;
-  top: -18px;
-  right: -18px;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border-radius: 50%;
-  background: #ff5cad;
-  font-size: 30px;
-}
-
-.message {
-  margin-top: 18px;
   font-size: 20px;
   font-weight: 900;
-  color: #ff2f99;
 }
 
-footer {
+.game {
+  max-width: 650px;
+  margin: 20px auto 60px;
+  background: #fffafc;
+  border: 5px solid #3b1230;
+  border-radius: 30px;
+  padding: 25px;
   text-align: center;
-  padding: 20px;
-  font-size: 15px;
-  color: #6b3457;
+  box-shadow: 9px 9px 0 #ff7abb;
 }
 
-@media (max-width: 600px) {
-  .logo {
-    font-size: 34px;
+.paw {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  font-size: 58px;
+  background: #ff5cad;
+  animation: pawFloat 1.6s infinite ease-in-out;
+}
+
+@keyframes pawFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.pop {
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.12) rotate(-2deg);
+  }
+
+  100% {
+    transform: scale(1);
   }
 }
