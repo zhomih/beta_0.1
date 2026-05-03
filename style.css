@@ -663,6 +663,19 @@ footer {
     padding: 22px 18px;
   }
 
+  .earn-help {
+  width: auto;
+  display: none;
+  background: #3b1230;
+  color: #fff;
+  border-radius: 999px;
+  padding: 12px 18px;
+}
+
+.earn-help.active {
+  display: block;
+}
+
   .delivery-actions.active,
   .curse-actions {
     grid-template-columns: 1fr;
