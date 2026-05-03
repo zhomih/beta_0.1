@@ -125,10 +125,15 @@ header {
 }
 
 .mahat2-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 122%;
   object-fit: cover;
   object-position: center top;
-  transform: scaleY(0.82) scaleX(1.02);
-  transform-origin: center top;
+  transform: scaleY(0.82);
+  transform-origin: top center;
 }
 
 h2 {
