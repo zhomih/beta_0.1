@@ -663,17 +663,23 @@ footer {
     padding: 22px 18px;
   }
 
-  .earn-help {
+.earn-help {
+  position: fixed;
+  top: 88px;
+  left: 28px;
+  z-index: 51;
   width: auto;
   display: none;
   background: #3b1230;
   color: #fff;
   border-radius: 999px;
-  padding: 12px 18px;
+  padding: 10px 16px;
+  font-size: 14px;
+  box-shadow: 4px 4px 0 #ff4fa3;
 }
 
 .earn-help.active {
-  display: block;
+  display: inline-block;
 }
 
   .delivery-actions.active,
