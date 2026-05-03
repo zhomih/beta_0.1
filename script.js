@@ -20,6 +20,29 @@ const closeRulesBtn = document.getElementById("closeRulesBtn");
 const rulesOverlay = document.getElementById("rulesOverlay");
 const fireworksEl = document.getElementById("fireworks");
 
+const deliveryBox = document.getElementById("deliveryBox");
+const deliveryFill = document.getElementById("deliveryFill");
+const deliveryCat = document.getElementById("deliveryCat");
+const deliveryStatus = document.getElementById("deliveryStatus");
+const deliveryActions = document.getElementById("deliveryActions");
+const receivedBtn = document.getElementById("receivedBtn");
+const missingBtn = document.getElementById("missingBtn");
+
+let deliveryInterval = null;
+
+const deliveryPhrases = [
+  "Выбежал из сайта 🐈",
+  "Пересекает дорогу, смотрит по сторонам 🚦",
+  "Едет на поезде без билета 🚆",
+  "Спорит с курьером-мяу 📦",
+  "Застрял в розовом пакете 🎀",
+  "Проверяет адрес лапкой 🐾",
+  "Покупает себе рыбку по дороге 🐟",
+  "Почти у подъезда 😼",
+  "Слышит запах дома 🏠",
+  "У двери 🚪"
+];
+
 function updateBalance() {
   balanceEl.textContent = balance;
 }
@@ -126,6 +149,7 @@ function clearCart() {
 
   updateBalance();
   renderCart();
+  resetDelivery();
   animateElement(document.querySelector(".balance"));
 
   messageEl.textContent = `Корзина очищена. Вернули ${refund} КотоКоинов.`;
@@ -140,6 +164,55 @@ function closeCart() {
   cartOverlay.classList.remove("active");
 }
 
+function resetDelivery() {
+  if (deliveryInterval) {
+    clearInterval(deliveryInterval);
+    deliveryInterval = null;
+  }
+
+  deliveryBox.classList.remove("active");
+  deliveryActions.classList.remove("active");
+  deliveryFill.style.width = "0%";
+  deliveryCat.style.left = "0%";
+  deliveryStatus.textContent = "Кот пока сидит в корзине.";
+}
+
+function startDelivery() {
+  let step = 0;
+
+  deliveryBox.classList.add("active");
+  deliveryActions.classList.remove("active");
+
+  deliveryFill.style.width = "0%";
+  deliveryCat.style.left = "0%";
+  deliveryStatus.textContent = "Кот собирает лапки в дорогу 🐾";
+
+  if (deliveryInterval) {
+    clearInterval(deliveryInterval);
+  }
+
+  deliveryInterval = setInterval(() => {
+    const progress = Math.min(100, Math.round((step / (deliveryPhrases.length - 1)) * 100));
+    const phrase = deliveryPhrases[step];
+
+    deliveryFill.style.width = `${progress}%`;
+    deliveryCat.style.left = `${progress}%`;
+    deliveryStatus.textContent = phrase;
+
+    step++;
+
+    if (step >= deliveryPhrases.length) {
+      clearInterval(deliveryInterval);
+      deliveryInterval = null;
+
+      deliveryFill.style.width = "100%";
+      deliveryCat.style.left = "100%";
+      deliveryStatus.textContent = "У двери 🚪";
+      deliveryActions.classList.add("active");
+    }
+  }, 900);
+}
+
 function checkout() {
   if (cart.length === 0) {
     messageEl.textContent = "Сначала выбери кота, бро 😭";
@@ -149,7 +222,21 @@ function checkout() {
   cart.length = 0;
   renderCart();
 
-  messageEl.textContent = "Мяу-заказ оформлен! Коты уже летят в Telegram 🐈";
+  messageEl.textContent = "Мяу-заказ оформлен! Запускаем доставку кота 🐈";
+  startDelivery();
+}
+
+function orderReceived() {
+  messageEl.textContent = "Спасибо за заказ! Кот официально принят в семью 😺";
+  deliveryStatus.textContent = "Заказ получен. Кот доволен 🐾";
+  deliveryActions.classList.remove("active");
+  launchFireworks();
+}
+
+function orderMissing() {
+  messageEl.textContent = "Кота нет, потому что это шуточная игра 😭 Настоящие коты через сайт не доставляются. Но МаМагазин всё равно ценит твоё терпение.";
+  deliveryStatus.textContent = "Курьер-мяу растворился в мемах 😿";
+  deliveryActions.classList.remove("active");
 }
 
 function openRules() {
@@ -237,6 +324,9 @@ earnBtn.addEventListener("click", earnCoins);
 openRulesBtn.addEventListener("click", openRules);
 closeRulesBtn.addEventListener("click", closeRules);
 
+receivedBtn.addEventListener("click", orderReceived);
+missingBtn.addEventListener("click", orderMissing);
+
 cartOverlay.addEventListener("click", (event) => {
   if (event.target === cartOverlay) {
     closeCart();
@@ -251,3 +341,4 @@ rulesOverlay.addEventListener("click", (event) => {
 
 updateBalance();
 renderCart();
+resetDelivery();
