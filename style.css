@@ -12,7 +12,7 @@ body {
 
 header {
   text-align: center;
-  padding: 90px 20px 25px;
+  padding: 95px 20px 25px;
 }
 
 .logo {
@@ -32,11 +32,21 @@ header {
   font-size: 20px;
 }
 
-.balance {
+.top-panel {
   position: fixed;
-  top: 22px;
-  left: 22px;
+  top: 18px;
+  left: 18px;
+  right: 18px;
   z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.balance,
+.cart-btn {
+  pointer-events: auto;
   background: #fff;
   border: 3px solid #3b1230;
   border-radius: 999px;
@@ -46,15 +56,8 @@ header {
 }
 
 .cart-btn {
-  position: fixed;
-  top: 22px;
-  right: 22px;
-  z-index: 50;
   width: auto;
   min-width: 76px;
-  padding: 12px 16px;
-  border-radius: 999px;
-  background: #fff;
   color: #3b1230;
 }
 
@@ -115,10 +118,17 @@ header {
   display: block;
 }
 
-.cat.cat-contain video.squash-video {
-  object-fit: contain;
-  transform: scaleY(0.82);
+/* Специально для МаШляпа 2:
+   показываем больше верха, не делаем маленькую марку в центре */
+.mahat2-box {
   background: #ffe1ef;
+}
+
+.mahat2-video {
+  object-fit: cover;
+  object-position: center top;
+  transform: scaleY(0.82) scaleX(1.02);
+  transform-origin: center top;
 }
 
 h2 {
@@ -163,6 +173,24 @@ button:active {
   box-shadow: 1px 1px 0 #3b1230;
 }
 
+.button-pop {
+  animation: buttonPop 0.25s ease;
+}
+
+@keyframes buttonPop {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08) rotate(-1deg);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 .cart-overlay {
   position: fixed;
   inset: 0;
@@ -179,7 +207,9 @@ button:active {
 }
 
 .cart-modal {
-  width: min(520px, 100%);
+  width: min(560px, 100%);
+  max-height: 85vh;
+  overflow-y: auto;
   background: #fff;
   border: 5px solid #3b1230;
   border-radius: 30px;
@@ -208,7 +238,40 @@ button:active {
   line-height: 1.6;
 }
 
-.total {
+.cart-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #fff1f8;
+  border: 3px solid #ff7abb;
+  border-radius: 18px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.cart-row-info {
+  text-align: left;
+  font-weight: 900;
+}
+
+.cart-row-price {
+  font-size: 14px;
+  color: #6b3457;
+}
+
+.remove-item {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  background: #3b1230;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.cart-total {
   margin: 15px 0;
   font-size: 20px;
   font-weight: 900;
@@ -293,14 +356,18 @@ footer {
     font-size: 34px;
   }
 
+  .top-panel {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
   .balance {
-    left: 12px;
-    top: 12px;
-    font-size: 13px;
+    font-size: 12px;
+    padding: 10px 12px;
   }
 
   .cart-btn {
-    right: 12px;
-    top: 12px;
+    padding: 10px 12px;
   }
 }
