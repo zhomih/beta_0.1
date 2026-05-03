@@ -14,6 +14,10 @@ let curseShownThisSession = false;
 let currentSong = null;
 let currentSongName = "";
 
+let chaosActive = false;
+let chaosAnimationId = null;
+let chaosSong = null;
+
 const $ = (id) => document.getElementById(id);
 
 const balanceEl = $("balance");
@@ -512,6 +516,142 @@ function megaMommyEffect() {
   }, 3000);
 }
 
+function startChaosSong() {
+  if (chaosSong) {
+    chaosSong.pause();
+    chaosSong.currentTime = 0;
+  }
+
+  chaosSong = new Audio("music/velyasik.mp3");
+  chaosSong.volume = 0.75;
+  chaosSong.loop = true;
+
+  chaosSong.play().catch(() => {
+    promoMessage.textContent = "Психоделика включилась, но браузер не дал запустить песню. Проверь имя файла в music.";
+  });
+}
+
+function createChaosEmoji() {
+  const emojis = ["🐈", "💥", "🌈", "💅", "🧠", "🍟", "😼", "✨", "🎀", "💀", "🌀", "🧃"];
+  const emoji = document.createElement("div");
+
+  emoji.className = "chaos-emoji";
+  emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+  emoji.style.left = `${Math.random() * window.innerWidth}px`;
+  emoji.style.top = `${Math.random() * window.innerHeight}px`;
+  emoji.style.setProperty("--chaos-x", `${(Math.random() - 0.5) * 900}px`);
+  emoji.style.setProperty("--chaos-y", `${(Math.random() - 0.5) * 900}px`);
+
+  document.body.appendChild(emoji);
+
+  setTimeout(() => {
+    emoji.remove();
+  }, 4000);
+}
+
+function startFlyingCards() {
+  const cards = Array.from(document.querySelectorAll(".card"));
+
+  const cardStates = cards.map((card) => {
+    const rect = card.getBoundingClientRect();
+
+    card.classList.add("chaos-card");
+
+    card.style.left = `${rect.left}px`;
+    card.style.top = `${rect.top}px`;
+
+    return {
+      element: card,
+      x: rect.left,
+      y: rect.top,
+      vx: (Math.random() > 0.5 ? 1 : -1) * (3 + Math.random() * 5),
+      vy: (Math.random() > 0.5 ? 1 : -1) * (3 + Math.random() * 5),
+      angle: Math.random() * 360,
+      spin: (Math.random() > 0.5 ? 1 : -1) * (2 + Math.random() * 5)
+    };
+  });
+
+  function animateCards() {
+    cardStates.forEach((state) => {
+      const card = state.element;
+      const width = card.offsetWidth;
+      const height = card.offsetHeight;
+
+      state.x += state.vx;
+      state.y += state.vy;
+      state.angle += state.spin;
+
+      if (state.x <= 0 || state.x + width >= window.innerWidth) {
+        state.vx *= -1;
+      }
+
+      if (state.y <= 0 || state.y + height >= window.innerHeight) {
+        state.vy *= -1;
+      }
+
+      state.x = Math.max(0, Math.min(window.innerWidth - width, state.x));
+      state.y = Math.max(0, Math.min(window.innerHeight - height, state.y));
+
+      card.style.left = `${state.x}px`;
+      card.style.top = `${state.y}px`;
+      card.style.transform = `rotate(${state.angle}deg)`;
+    });
+
+    chaosAnimationId = requestAnimationFrame(animateCards);
+  }
+
+  animateCards();
+}
+
+function stopChaosMode() {
+  chaosActive = false;
+
+  document.body.classList.remove("chaos-mode", "chaos-shake");
+
+  if (chaosAnimationId) {
+    cancelAnimationFrame(chaosAnimationId);
+    chaosAnimationId = null;
+  }
+
+  document.querySelectorAll(".card").forEach((card) => {
+    card.classList.remove("chaos-card");
+    card.style.left = "";
+    card.style.top = "";
+    card.style.transform = "";
+  });
+
+  if (chaosSong) {
+    chaosSong.pause();
+    chaosSong.currentTime = 0;
+  }
+}
+
+function startChaosMode() {
+  if (chaosActive) return;
+
+  chaosActive = true;
+
+  document.body.classList.add("chaos-mode", "chaos-shake");
+  startChaosSong();
+  startFlyingCards();
+
+  const emojiTimer = setInterval(() => {
+    if (!chaosActive) {
+      clearInterval(emojiTimer);
+      return;
+    }
+
+    for (let i = 0; i < 6; i++) {
+      createChaosEmoji();
+    }
+  }, 180);
+
+  setTimeout(() => {
+    stopChaosMode();
+  }, 12000);
+}
+
 function earnCoins() {
   const baseDrop = Math.floor(Math.random() * 5) + 1;
 
@@ -669,6 +809,12 @@ function applyPromo() {
       type: "infinite",
       reward: 999999,
       text: "БЕСКОНЕЧНО КОТОКОИНОВ. МАМОЧКА ПРОСТО ЛЕГЕНДА БЛИН"
+    },
+
+    "велясик жиробасик": {
+      type: "chaos",
+      reward: 67,
+      text: "ВЕЛЯСИК ЖИРОБАСИК АКТИВИРОВАН. Сайт потерял контроль над реальностью."
     }
   };
 
@@ -708,6 +854,12 @@ function applyPromo() {
     balance = promo.reward;
     stats.earned += promo.reward;
     megaMommyEffect();
+  }
+
+  if (promo.type === "chaos") {
+    balance += promo.reward;
+    stats.earned += promo.reward;
+    startChaosMode();
   }
 
   updateBalance();
