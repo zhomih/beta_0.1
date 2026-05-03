@@ -14,6 +14,8 @@ body {
   min-height: 100vh;
 }
 
+/* HEADER */
+
 header {
   text-align: center;
   padding: 105px 20px 25px;
@@ -35,6 +37,8 @@ header {
   margin-top: 25px;
   font-size: 20px;
 }
+
+/* TOP PANEL */
 
 .top-panel {
   position: fixed;
@@ -77,6 +81,8 @@ header {
   height: 24px;
   margin-left: 5px;
 }
+
+/* SHOP */
 
 .shop {
   max-width: 1200px;
@@ -151,6 +157,8 @@ h2 {
   margin: 14px 0;
 }
 
+/* BUTTONS */
+
 button,
 .donate-link {
   width: 100%;
@@ -205,6 +213,8 @@ button:active,
     transform: scale(1);
   }
 }
+
+/* OVERLAYS */
 
 .cart-overlay,
 .rules-overlay,
@@ -294,6 +304,8 @@ button:active,
   justify-content: center;
 }
 
+/* CART */
+
 #cartItems {
   margin: 15px 0;
   font-size: 18px;
@@ -357,6 +369,8 @@ button:active,
   font-weight: 900;
   color: #ff2f99;
 }
+
+/* DELIVERY */
 
 .delivery {
   display: none;
@@ -425,6 +439,8 @@ button:active,
   grid-template-columns: 1fr 1fr;
 }
 
+/* GAME */
+
 .game {
   max-width: 650px;
   margin: 25px auto 60px;
@@ -487,6 +503,8 @@ button:active,
   color: #ff2f99;
 }
 
+/* VIDEO BLOCKS IN MODALS */
+
 .rules-cat,
 .details-video,
 .wallet-cat,
@@ -517,6 +535,8 @@ button:active,
   object-fit: cover;
   display: block;
 }
+
+/* DETAILS / RULES / WALLET / STATS / SONGS */
 
 .rules-modal p,
 .details-modal p,
@@ -550,6 +570,8 @@ button:active,
   color: #6b3457;
   font-weight: 900;
 }
+
+/* PROMO */
 
 .promo-box {
   display: none;
@@ -586,6 +608,8 @@ button:active,
   background: #3b1230;
 }
 
+/* SONGS */
+
 .song-list {
   display: grid;
   gap: 10px;
@@ -598,6 +622,25 @@ button:active,
   gap: 10px;
   margin-top: 12px;
 }
+
+.volume-box {
+  margin-top: 14px;
+  padding: 12px;
+  background: #fff1f8;
+  border: 3px dashed #ff7abb;
+  border-radius: 18px;
+  font-weight: 900;
+  color: #6b3457;
+}
+
+.volume-box input {
+  width: 100%;
+  margin-top: 10px;
+  accent-color: #ff5cad;
+  cursor: pointer;
+}
+
+/* FIREWORKS */
 
 .fireworks {
   position: fixed;
@@ -633,6 +676,8 @@ button:active,
   }
 }
 
+/* POP ANIMATION */
+
 .pop {
   animation: pop 0.25s ease;
 }
@@ -650,6 +695,8 @@ button:active,
     transform: scale(1);
   }
 }
+
+/* CURSE 67 */
 
 .curse-overlay {
   position: fixed;
@@ -680,23 +727,6 @@ button:active,
   animation: scaryPulse 1.4s infinite ease-in-out;
 }
 
-.volume-box {
-  margin-top: 14px;
-  padding: 12px;
-  background: #fff1f8;
-  border: 3px dashed #ff7abb;
-  border-radius: 18px;
-  font-weight: 900;
-  color: #6b3457;
-}
-
-.volume-box input {
-  width: 100%;
-  margin-top: 10px;
-  accent-color: #ff5cad;
-  cursor: pointer;
-}
-
 .curse-modal h2 {
   font-size: 90px;
   margin: 0;
@@ -725,6 +755,8 @@ button:active,
   font-size: 13px;
 }
 
+/* SCREAMER */
+
 .screamer-overlay {
   position: fixed;
   inset: 0;
@@ -737,6 +769,8 @@ button:active,
   color: #ff2f99;
   font-size: 72px;
   font-weight: 900;
+  text-align: center;
+  padding: 20px;
 }
 
 .screamer-overlay.active {
@@ -781,6 +815,8 @@ button:active,
     transform: translate(3px, 3px) rotate(1deg);
   }
 }
+
+/* MAMOCHKA PROMO EFFECT */
 
 .rainbow-party {
   animation: rainbowParty 0.35s linear infinite;
@@ -897,12 +933,16 @@ button:active,
   transition: none !important;
 }
 
+/* FOOTER */
+
 footer {
   text-align: center;
   padding: 20px;
   font-size: 15px;
   color: #6b3457;
 }
+
+/* MOBILE */
 
 @media (max-width: 600px) {
   header {
@@ -945,5 +985,9 @@ footer {
   .curse-actions,
   .song-controls {
     grid-template-columns: 1fr;
+  }
+
+  .screamer-overlay {
+    font-size: 40px;
   }
 }
