@@ -134,12 +134,12 @@ const deliveryPhrases = [
 function updateBalance() {
   balanceEl.textContent = balance;
 
-  if (earnHelpBtn) {
-    if (balance < 25) {
-      earnHelpBtn.classList.add("active");
-    } else {
-      earnHelpBtn.classList.remove("active");
-    }
+  if (!earnHelpBtn) return;
+
+  if (balance < 25) {
+    earnHelpBtn.classList.add("show");
+  } else {
+    earnHelpBtn.classList.remove("show");
   }
 }
 
