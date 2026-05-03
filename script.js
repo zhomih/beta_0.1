@@ -1,3 +1,6 @@
+Конечно, бро. Вот весь `script.js` целиком, уже с ползунком громкости:
+
+```js
 let balance = 107;
 const cart = [];
 
@@ -81,6 +84,8 @@ const closeSongsBtn = $("closeSongsBtn");
 const pauseSongBtn = $("pauseSongBtn");
 const stopSongBtn = $("stopSongBtn");
 const songMessage = $("songMessage");
+const volumeSlider = $("volumeSlider");
+const volumeValue = $("volumeValue");
 
 const usedPromos = new Set();
 
@@ -91,24 +96,28 @@ const catDetails = {
     text: "Маленький кот с огромным самомнением. Делает вид, что ничего не понимает, но уже посчитал твой баланс.",
     stats: ["Редкость: маленькая легенда", "Любимая еда: крошка рыбки", "Риск побега: 12%"]
   },
+
   pineapple: {
     title: "Ананасовый Ма",
     video: "images/mama_pineapple.mp4",
     text: "Кот в ананасовой броне. Выглядит как фрукт, но внутри бизнес-план и лёгкое осуждение.",
     stats: ["Редкость: тропический", "Любимая еда: лосось с зонтиком", "Риск побега: 34%"]
   },
+
   cute: {
     title: "МаМилашка",
     video: "images/mama_cute.mp4",
     text: "Слишком милый кот. Опасность в том, что после просмотра хочется отдать ему все КотоКоины.",
     stats: ["Редкость: милая угроза", "Любимая еда: комплименты", "Риск побега: 5%"]
   },
+
   hat2: {
     title: "МаШляпа 2",
     video: "images/mama_another_hat.mp4",
     text: "Кот, который знает про стиль больше, чем весь подъезд. Смотрит прямо в душу и требует уважения.",
     stats: ["Редкость: модный босс", "Любимая еда: внимание", "Риск побега: 67%"]
   },
+
   hat: {
     title: "МаШляпа",
     video: "images/mama_hat.mp4",
@@ -168,6 +177,7 @@ function getCartTotal() {
 
 function animateElement(element) {
   if (!element) return;
+
   element.classList.remove("pop");
   void element.offsetWidth;
   element.classList.add("pop");
@@ -175,6 +185,7 @@ function animateElement(element) {
 
 function animateButton(button) {
   if (!button) return;
+
   button.classList.remove("button-pop");
   void button.offsetWidth;
   button.classList.add("button-pop");
@@ -231,7 +242,10 @@ function addToCart(name, price, button) {
   stats.bought += 1;
   stats.spent += price;
 
-  cart.push({ name, price });
+  cart.push({
+    name,
+    price
+  });
 
   updateBalance();
   updateStats();
@@ -240,11 +254,13 @@ function addToCart(name, price, button) {
   animateButton(button);
 
   messageEl.textContent = `${name} добавлен в корзину. Списано ${price} КотоКоинов 🐾`;
+
   maybeShowCurseAfterPurchase();
 }
 
 function removeFromCart(index) {
   const item = cart[index];
+
   if (!item) return;
 
   balance += item.price;
@@ -341,6 +357,7 @@ function startDelivery() {
     if (step >= route.length - 1) {
       clearInterval(deliveryInterval);
       deliveryInterval = null;
+
       deliveryFill.style.width = "100%";
       deliveryCat.style.left = "100%";
       deliveryStatus.textContent = "У двери 🚪";
@@ -399,6 +416,7 @@ function closeRules() {
 
 function openDetails(key) {
   const cat = catDetails[key];
+
   if (!cat) return;
 
   detailsTitle.textContent = cat.title;
@@ -587,7 +605,7 @@ function playSong(src, name) {
 
   currentSong = new Audio(src);
   currentSong.loop = true;
-  currentSong.volume = 0.45;
+  currentSong.volume = Number(volumeSlider.value) / 100;
   currentSongName = name;
 
   currentSong.play()
@@ -595,7 +613,7 @@ function playSong(src, name) {
       songMessage.textContent = `Сейчас играет: ${name} 🎵`;
     })
     .catch(() => {
-      songMessage.textContent = "Браузер не дал включить песню. Нажми ещё раз 😭";
+      songMessage.textContent = "Браузер не дал включить песню. Проверь путь к файлу или нажми ещё раз 😭";
     });
 }
 
@@ -625,6 +643,15 @@ function stopSong() {
   songMessage.textContent = "Песня остановлена.";
 }
 
+function updateVolume() {
+  const volume = Number(volumeSlider.value) / 100;
+  volumeValue.textContent = volumeSlider.value;
+
+  if (currentSong) {
+    currentSong.volume = volume;
+  }
+}
+
 function applyPromo() {
   const code = promoInput.value.trim().toLowerCase();
 
@@ -634,11 +661,13 @@ function applyPromo() {
       reward: 2500,
       text: "+2500 КотоКоинов и бесконечный респект :) трать на что хочешь. Разработчик этой игры, как он вообще до этого додумался... главный ненавистник числа 67 и подобных мемов."
     },
+
     "андре": {
       type: "subtract",
       reward: 500,
       text: "-500 КотоКоинов. АХАХАХАХ НЕТ ПОЖАЛУЙСТА"
     },
+
     "мамочка": {
       type: "infinite",
       reward: 999999,
@@ -752,6 +781,7 @@ openSongsBtn.addEventListener("click", openSongs);
 closeSongsBtn.addEventListener("click", closeSongs);
 pauseSongBtn.addEventListener("click", pauseSong);
 stopSongBtn.addEventListener("click", stopSong);
+volumeSlider.addEventListener("input", updateVolume);
 
 cartOverlay.addEventListener("click", (event) => {
   if (event.target === cartOverlay) closeCart();
@@ -781,3 +811,5 @@ updateBalance();
 updateStats();
 renderCart();
 resetDelivery();
+updateVolume();
+```
