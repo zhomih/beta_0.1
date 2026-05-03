@@ -471,6 +471,87 @@ footer {
     padding: 18px;
   }
 
+.delivery {
+  display: none;
+  margin-top: 22px;
+  padding: 18px;
+  background: #fff1f8;
+  border: 3px dashed #ff7abb;
+  border-radius: 22px;
+}
+
+.delivery.active {
+  display: block;
+}
+
+.delivery h3 {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.delivery-track {
+  position: relative;
+  height: 28px;
+  background: #fff;
+  border: 3px solid #3b1230;
+  border-radius: 999px;
+  overflow: visible;
+  margin: 18px 8px 16px;
+}
+
+.delivery-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: #ff5cad;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.delivery-cat {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(-50%, -58%);
+  font-size: 30px;
+  transition: left 0.5s ease;
+  z-index: 2;
+}
+
+.delivery-status {
+  min-height: 32px;
+  font-size: 18px;
+  font-weight: 900;
+  color: #6b3457;
+}
+
+.delivery-actions {
+  display: none;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.delivery-actions.active {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.sad-btn {
+  background: #ff9ccc;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding-top: 95px;
+  }
+
+  .delivery-actions.active {
+    grid-template-columns: 1fr;
+  }
+}
+  
   .cart-modal,
   .rules-modal {
     padding: 22px 18px;
