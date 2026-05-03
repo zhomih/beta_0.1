@@ -822,6 +822,81 @@ button:active,
   }
 }
 
+/* CHAOS PROMO: ВЕЛЯСИК ЖИРОБАСИК */
+
+.chaos-mode {
+  animation: chaosRainbow 0.18s linear infinite;
+  overflow-x: hidden;
+}
+
+@keyframes chaosRainbow {
+  0% {
+    filter: hue-rotate(0deg) saturate(1.5) contrast(1.1);
+  }
+
+  50% {
+    filter: hue-rotate(180deg) saturate(2.5) contrast(1.4);
+  }
+
+  100% {
+    filter: hue-rotate(360deg) saturate(1.8) contrast(1.2);
+  }
+}
+
+.chaos-shake {
+  animation: chaosShake 0.08s infinite;
+}
+
+@keyframes chaosShake {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(3px, -3px) rotate(1deg);
+  }
+
+  50% {
+    transform: translate(-3px, 3px) rotate(-1deg);
+  }
+
+  75% {
+    transform: translate(2px, 2px) rotate(1deg);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+.chaos-emoji {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  font-size: 32px;
+  animation: chaosEmojiFly 4s linear forwards;
+}
+
+@keyframes chaosEmojiFly {
+  0% {
+    transform: translate(0, 0) scale(0.4) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--chaos-x), var(--chaos-y)) scale(2) rotate(1080deg);
+    opacity: 0;
+  }
+}
+
+.card.chaos-card {
+  position: fixed !important;
+  z-index: 3000;
+  width: 240px;
+  margin: 0 !important;
+  transition: none !important;
+}
+
 footer {
   text-align: center;
   padding: 20px;
