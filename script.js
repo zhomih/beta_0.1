@@ -1,5 +1,8 @@
-let balance = 100;
+let balance = 107;
 const cart = [];
+
+let deliveryInterval = null;
+let curseShownThisSession = false;
 
 const balanceEl = document.getElementById("balance");
 const cartCountEl = document.getElementById("cartCount");
@@ -28,7 +31,11 @@ const deliveryActions = document.getElementById("deliveryActions");
 const receivedBtn = document.getElementById("receivedBtn");
 const missingBtn = document.getElementById("missingBtn");
 
-let deliveryInterval = null;
+const curseOverlay = document.getElementById("curseOverlay");
+const curseSpendBtn = document.getElementById("curseSpendBtn");
+const curseEarnBtn = document.getElementById("curseEarnBtn");
+const keep67Btn = document.getElementById("keep67Btn");
+const screamerOverlay = document.getElementById("screamerOverlay");
 
 const deliveryPhrases = [
   "Выбежал из сайта 🐈",
@@ -50,7 +57,7 @@ const deliveryPhrases = [
   "Идёт по карте, но карта нарисована лапой 🗺️",
   "Слишком красиво идёт, прохожие снимают сторис 📸",
   "Пытается ехать на самокате 🛴",
-  "Упал, встал, сделал вид что так и надо 😾",
+  "Упал, встал, сделал вид, что так и надо 😾",
   "Спросил дорогу у другого кота 🐈‍⬛",
   "Несёт заказ, но подозрительно мурчит 📦",
   "Забыл зачем шёл, но продолжил движение 🧠",
@@ -118,6 +125,15 @@ function renderCart() {
   });
 }
 
+function maybeShowCurseAfterPurchase() {
+  if (curseShownThisSession) return;
+
+  if (balance === 67) {
+    curseShownThisSession = true;
+    curseOverlay.classList.add("active");
+  }
+}
+
 function addToCart(name, price, button) {
   if (balance < price) {
     messageEl.textContent = `Не хватает ${price - balance} КотоКоинов. Иди тыкать лапу 🐾`;
@@ -139,6 +155,8 @@ function addToCart(name, price, button) {
   animateButton(button);
 
   messageEl.textContent = `${name} добавлен в корзину. Списано ${price} КотоКоинов 🐾`;
+
+  maybeShowCurseAfterPurchase();
 }
 
 function removeFromCart(index) {
@@ -199,11 +217,8 @@ function resetDelivery() {
 
 function getRandomDeliveryRoute() {
   const finalPhrase = "У двери 🚪";
-
   const phrasesWithoutFinal = deliveryPhrases.filter((phrase) => phrase !== finalPhrase);
-
   const shuffled = [...phrasesWithoutFinal].sort(() => Math.random() - 0.5);
-
   const selected = shuffled.slice(0, 6);
 
   return [...selected, finalPhrase];
@@ -242,7 +257,7 @@ function startDelivery() {
 
       setTimeout(() => {
         deliveryActions.classList.add("active");
-      }, 600);
+      }, 800);
 
       return;
     }
@@ -350,6 +365,29 @@ function earnCoins() {
   animateElement(earnBtn);
 }
 
+function curseSpend() {
+  curseOverlay.classList.remove("active");
+  openCart();
+  messageEl.textContent = "Потрать хотя бы один КотоКоин, пока сайт не передумал 😰";
+}
+
+function curseEarn() {
+  curseOverlay.classList.remove("active");
+  document.querySelector(".game").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+function keep67() {
+  curseOverlay.classList.remove("active");
+  screamerOverlay.classList.add("active");
+
+  setTimeout(() => {
+    screamerOverlay.classList.remove("active");
+  }, 1800);
+}
+
 document.querySelectorAll(".buy-btn").forEach((button) => {
   button.addEventListener("click", () => {
     const name = button.dataset.name;
@@ -370,6 +408,10 @@ closeRulesBtn.addEventListener("click", closeRules);
 
 receivedBtn.addEventListener("click", orderReceived);
 missingBtn.addEventListener("click", orderMissing);
+
+curseSpendBtn.addEventListener("click", curseSpend);
+curseEarnBtn.addEventListener("click", curseEarn);
+keep67Btn.addEventListener("click", keep67);
 
 cartOverlay.addEventListener("click", (event) => {
   if (event.target === cartOverlay) {
