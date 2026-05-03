@@ -115,9 +115,10 @@ header {
   display: block;
 }
 
-.cat video.squash-video {
-  transform: scaleY(0.78) scaleX(1.08);
-  object-fit: cover;
+.cat.cat-contain video.squash-video {
+  object-fit: contain;
+  transform: scaleY(0.82);
+  background: #ffe1ef;
 }
 
 h2 {
