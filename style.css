@@ -349,9 +349,9 @@ button:active {
 
 .delivery-cat {
   position: absolute;
-  top: 50%;
+  top: -28px;
   left: 0%;
-  transform: translate(-50%, -62%);
+  transform: translateX(-50%) scaleX(-1);
   font-size: 34px;
   transition: left 2.8s ease;
   z-index: 2;
