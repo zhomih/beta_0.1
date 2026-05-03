@@ -8,6 +8,20 @@
 </head>
 
 <body>
+  <button class="cart-btn" onclick="openCart()">
+  🛒 <span id="cartCount">0</span>
+</button>
+
+<div class="cart-overlay" id="cartOverlay">
+  <div class="cart-modal">
+    <button class="close-cart" onclick="closeCart()">×</button>
+    <h2>🛒 Мяу-корзина</h2>
+    <div id="cartItems">Пока пусто. Коты обижены.</div>
+    <button class="checkout" onclick="checkout()">Оформить мяу-заказ</button>
+    <button class="clear" onclick="clearCart()">Очистить корзину</button>
+    <div class="message" id="message"></div>
+  </div>
+</div>
   <header>
     <div class="logo">МаМагазин</div>
     <p class="subtitle">Розовая витрина котов-гивок. Покупка за муркоины 🐾</p>
