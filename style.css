@@ -4,12 +4,13 @@
 
 body {
   margin: 0;
-  font-family: "Comic Sans MS", sans-serif;
+  font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
   background:
     radial-gradient(circle at 10% 20%, #fff 0 12px, transparent 13px),
     radial-gradient(circle at 80% 10%, #ffd1e8 0 18px, transparent 19px),
     linear-gradient(135deg, #ffb6d9, #ffe6f2);
   color: #3b1230;
+  min-height: 100vh;
 }
 
 header {
@@ -26,15 +27,17 @@ header {
   font-size: 48px;
   font-weight: 900;
   box-shadow: 8px 8px 0 #ff4fa3;
+  transform: rotate(-2deg);
 }
 
 .subtitle {
-  margin-top: 20px;
+  margin-top: 25px;
+  font-size: 20px;
 }
 
 .shop {
-  max-width: 1100px;
-  margin: auto;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 25px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -47,17 +50,50 @@ header {
   border-radius: 28px;
   padding: 18px;
   box-shadow: 7px 7px 0 #ff7abb;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-6px) rotate(1deg);
+  box-shadow: 10px 10px 0 #ff4fa3;
 }
 
 .cat {
-  height: 150px;
+  height: 210px;
   border: 3px dashed #ff7abb;
   border-radius: 22px;
+  background: #ffe1ef;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 70px;
   margin-bottom: 15px;
+}
+
+.cat video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* если хочешь, чтобы видео не обрезались, замени cover на contain выше */
+
+h2 {
+  margin: 5px 0;
+  font-size: 24px;
+}
+
+.desc {
+  font-size: 15px;
+  min-height: 55px;
+  color: #6b3457;
+}
+
+.price {
+  font-size: 21px;
+  font-weight: 900;
+  margin: 14px 0;
 }
 
 button {
@@ -65,18 +101,72 @@ button {
   border: 3px solid #3b1230;
   background: #ff5cad;
   color: white;
-  font-weight: bold;
-  border-radius: 15px;
-  padding: 10px;
+  font-size: 17px;
+  font-weight: 900;
+  border-radius: 18px;
+  padding: 12px;
   cursor: pointer;
+  box-shadow: 4px 4px 0 #3b1230;
+  font-family: inherit;
+  margin-top: 8px;
+}
+
+button:hover {
+  background: #ff2f99;
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #3b1230;
 }
 
 .cart {
-  max-width: 600px;
-  margin: 40px auto;
-  background: white;
+  max-width: 650px;
+  margin: 35px auto 60px;
+  background: #fff;
   border: 5px solid #3b1230;
-  border-radius: 25px;
-  padding: 20px;
+  border-radius: 30px;
+  padding: 25px;
+  box-shadow: 9px 9px 0 #ff4fa3;
   text-align: center;
+}
+
+.cart h2 {
+  font-size: 32px;
+}
+
+#cartItems {
+  margin: 15px 0;
+  font-size: 18px;
+  min-height: 30px;
+  line-height: 1.6;
+}
+
+.checkout {
+  background: #3b1230;
+}
+
+.clear {
+  background: #ff9ccc;
+}
+
+.message {
+  margin-top: 18px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ff2f99;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 15px;
+  color: #6b3457;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    font-size: 36px;
+  }
+
+  .cat {
+    height: 240px;
+  }
 }
