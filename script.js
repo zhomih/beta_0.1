@@ -523,8 +523,8 @@ function startChaosSong() {
   }
 
   chaosSong = new Audio("music/velyasik.mp3");
-  chaosSong.volume = 0.75;
-  chaosSong.loop = true;
+  chaosSong.volume = 100;
+  chaosSong.loop = false;
 
   chaosSong.play().catch(() => {
     promoMessage.textContent = "Психоделика включилась, но браузер не дал запустить песню. Проверь имя файла в music.";
