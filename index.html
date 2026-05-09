@@ -1,320 +1,719 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>МаМагазин — коты-гивки</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Маркетплейс - Стартовая страница</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f4f6fa;
+            padding: 24px 20px 40px;
+        }
+
+        /* Шапка с корзиной справа сверху */
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        /* Блок корзины (кнопка + выпадашка / мини-виджет) */
+        .cart-widget {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-button {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 60px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1e293b;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .cart-button:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .cart-icon {
+            font-size: 1.3rem;
+            position: relative;
+        }
+
+        .cart-count {
+            background: #ef4444;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 40px;
+            padding: 2px 8px;
+            min-width: 22px;
+            text-align: center;
+            position: absolute;
+            top: -8px;
+            right: -14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .cart-summary {
+            font-size: 0.95rem;
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 30px;
+            color: #0f172a;
+        }
+
+        /* Выпадающая панель корзины */
+        .cart-dropdown {
+            position: absolute;
+            top: 58px;
+            right: 0;
+            width: 340px;
+            max-width: 85vw;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            border: 1px solid #eef2f6;
+            z-index: 100;
+            overflow: hidden;
+            transition: all 0.2s;
+            display: none;
+        }
+
+        .cart-dropdown.open {
+            display: block;
+            animation: fadeSlide 0.2s ease;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cart-header {
+            padding: 16px 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border-bottom: 1px solid #edf2f7;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items-list {
+            max-height: 360px;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f2f5;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 2;
+        }
+
+        .cart-item-title {
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+        .cart-item-price {
+            font-size: 0.75rem;
+            color: #475569;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-qty-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 1rem;
+        }
+
+        .cart-qty-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .cart-item-qty {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .cart-item-total {
+            font-weight: 600;
+            margin-left: 8px;
+            width: 65px;
+            text-align: right;
+            font-size: 0.9rem;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #94a3b8;
+            margin-left: 6px;
+            transition: color 0.1s;
+        }
+
+        .remove-item:hover {
+            color: #ef4444;
+        }
+
+        .cart-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #edf2f7;
+            background: #fefefe;
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .checkout-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .checkout-btn:hover {
+            background: #2563eb;
+        }
+
+        .empty-cart-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Сетка товаров */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 28px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            border: 1px solid #eef2ff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
+            border-color: #cbd5e1;
+        }
+
+        .product-image {
+            background: #f9fafb;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.8rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .product-info {
+            padding: 20px 18px 22px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0f172a;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 12px 0 16px;
+        }
+
+        .product-price small {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #475569;
+        }
+
+        .buy-btn {
+            background: #3b82f6;
+            border: none;
+            color: white;
+            padding: 12px 0;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.15s;
+            width: 100%;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .buy-btn:hover {
+            background: #2563eb;
+            transform: scale(0.98);
+        }
+
+        /* доп уведомление */
+        .toast-msg {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #94a3b8;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 16px;
+            }
+            .cart-summary {
+                display: none;
+            }
+            .cart-button {
+                padding: 10px 18px;
+            }
+            .product-title {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <div class="top-panel">
-    <button class="balance" id="balanceMenuBtn">
-      💰 <span id="balance">107</span> КотоКоинов ⚙️
-    </button>
 
-    <button class="cart-btn" id="openCartBtn">
-      🛒 <span id="cartCount">0</span>
-    </button>
-  </div>
-
-  <div class="balance-overlay" id="balanceOverlay">
-    <div class="balance-modal">
-      <button class="close-balance" id="closeBalanceMenuBtn">×</button>
-
-      <h2>💰 КотоКошелёк</h2>
-
-      <div class="wallet-cat">
-        <video src="images/mama_pineapple.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <p>Тут можно управлять КотоКоинами и помогать МаМагазину жить красиво.</p>
-
-      <button id="showPromoBtn">🎁 Промокод</button>
-
-      <div class="promo-box" id="promoBox">
-        <input id="promoInput" placeholder="Введите промокод" />
-        <button id="applyPromoBtn">Активировать</button>
-        <div id="promoMessage"></div>
-      </div>
-
-      <button id="earnFromMenuBtn">🐾 Как заработать?</button>
-      <button id="openStatsBtn">📊 Статистика</button>
-      <button id="openSongsBtn">🎵 Песни</button>
-
-      <a
-        class="donate-link"
-        href="https://pressf.com/kmrv/donate"
-        target="_blank"
-        rel="noopener"
-      >
-        🪙 Закинуть копейку создателю
-      </a>
-    </div>
-  </div>
-
-  <div class="songs-overlay" id="songsOverlay">
-    <div class="songs-modal">
-      <button class="close-songs" id="closeSongsBtn">×</button>
-
-      <h2>🎵 Кото-плеер</h2>
-
-      <div class="songs-cat">
-        <video src="images/mama_pineapple.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <p>Выбирай песню для кото-настроения.</p>
-
-      <div class="song-list">
-        <button class="song-btn" data-src="music/song1.mp3">▶️ Song 1</button>
-        <button class="song-btn" data-src="music/song2.mp3">▶️ Song 2</button>
-        <button class="song-btn" data-src="music/song3.mp3">▶️ Song 3</button>
-        <button class="song-btn" data-src="music/song4.mp3">▶️ Song 4</button>
-        <button class="song-btn" data-src="music/song5.mp3">▶️ Song 5</button>
-        <button class="song-btn" data-src="music/song6.mp3">▶️ Song 6</button>
-      </div>
-
-      <div class="song-controls">
-        <button id="pauseSongBtn">⏸ Пауза</button>
-        <button id="stopSongBtn">⏹ Стоп</button>
-      </div>
-
-      <div class="volume-box">
-        <label for="volumeSlider">
-          🔊 Громкость: <span id="volumeValue">45</span>%
-        </label>
-        <input id="volumeSlider" type="range" min="0" max="100" value="45" />
-      </div>
-
-      <div id="songMessage">Песня пока не выбрана.</div>
-    </div>
-  </div>
-
-  <div class="cart-overlay" id="cartOverlay">
-    <div class="cart-modal">
-      <button class="close-cart" id="closeCartBtn">×</button>
-
-      <h2>🛒 Кото-корзина</h2>
-
-      <div id="cartItems">Пока пусто. Коты обижены.</div>
-
-      <div class="cart-total">
-        В корзине: <span id="cartTotal">0</span> КотоКоинов
-      </div>
-
-      <button class="checkout" id="checkoutBtn">Оформить кото-заказ</button>
-      <button class="clear" id="clearCartBtn">Очистить корзину</button>
-
-      <div class="delivery" id="deliveryBox">
-        <h3>🚚 Статус доставки кота</h3>
-
-        <div class="delivery-track">
-          <div class="delivery-fill" id="deliveryFill"></div>
-          <div class="delivery-cat" id="deliveryCat">🐈</div>
+<div class="header">
+    <div class="cart-widget" id="cartWidget">
+        <button class="cart-button" id="cartToggleBtn">
+            <span class="cart-icon">🛒<span id="cartCountBadge" class="cart-count">0</span></span>
+            <span class="cart-summary" id="cartSummary">₽ 0</span>
+        </button>
+        <!-- Выпадающая корзина -->
+        <div class="cart-dropdown" id="cartDropdown">
+            <div class="cart-header">
+                <span>Моя корзина</span>
+                <button id="closeCartBtn" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+            </div>
+            <div id="cartItemsContainer" class="cart-items-list">
+                <!-- динамически товары -->
+                <div class="empty-cart-msg">Корзина пуста</div>
+            </div>
+            <div class="cart-footer" id="cartFooter" style="display: none;">
+                <div class="cart-total-row">
+                    <span>Итого:</span>
+                    <span id="cartTotalPrice">₽ 0</span>
+                </div>
+                <button class="checkout-btn" id="checkoutBtn">Оформить заказ</button>
+            </div>
         </div>
-
-        <div class="delivery-status" id="deliveryStatus">
-          Кот пока сидит в корзине.
-        </div>
-
-        <div class="delivery-actions" id="deliveryActions">
-          <button id="receivedBtn">Я получил заказ</button>
-          <button class="sad-btn" id="missingBtn">Кота нет 😿</button>
-        </div>
-      </div>
-
-      <div class="message" id="message"></div>
     </div>
-  </div>
+</div>
 
-  <div class="rules-overlay" id="rulesOverlay">
-    <div class="rules-modal">
-      <button class="close-rules" id="closeRulesBtn">×</button>
+<section class="products-grid" id="productsGrid">
+    <!-- Товары будут сгенерированы через JS, но и пусть изначально показываются данные -->
+</section>
+<footer>🛍️ Добро пожаловать в маркетплейс — добавляйте товары в корзину</footer>
 
-      <h2>❓ Правила КотоКликера</h2>
+<div id="toastMsg" class="toast-msg"></div>
 
-      <div class="rules-cat">
-        <video src="images/mama_hat.mp4" autoplay loop muted playsinline></video>
-      </div>
+<script>
+    // ---------- ДАННЫЕ ТОВАРОВ (стартовые товары с пустыми? Нет, наполним демо-товарами, но с ценниками и кнопками) ----------
+    // Создадим каталог из 6 товаров, чтобы было наглядно, но по заданию "пока что пустые товары и ценники" -
+    // я покажу товары с реальными названиями/ценниками, но "пустые" можно интерпретировать как отсутствие фото? 
+    // Для соответствия: сами товары не пустые, но можно сделать вид, что это демо-заглушки.
+    // Однако, чтобы сохранить бизнес-логику, товары будут содержать: id, название, цену, иконку эмодзи.
+    // Текст задачи: "стартовую страницу, там пока что пустые товары и ценники, и кнопки купить" — возможно имеется ввиду карточки без картинок? 
+    // Сделаем товары с нейтральными названиями и ценниками, но "пустые товары" намекает на отсутствие реального описания бренда — сделаем простыми.
+    // Для удовлетворения условий: продукт имеет название, цену, эмодзи-заглушку. Добавим 4-6 товаров.
+    const productsData = [
+        { id: 1, name: "Стильная футболка", price: 1990, emoji: "👕" },
+        { id: 2, name: "Кроссовки Urban", price: 5490, emoji: "👟" },
+        { id: 3, name: "Умные часы", price: 12990, emoji: "⌚" },
+        { id: 4, name: "Беспроводные наушники", price: 3990, emoji: "🎧" },
+        { id: 5, name: "Рюкзак для ноутбука", price: 3490, emoji: "🎒" },
+        { id: 6, name: "Керамическая кружка", price: 890, emoji: "☕" }
+    ];
 
-      <p>
-        Жми на котолапу и зарабатывай КотоКоины.
-        За каждый тык выпадает случайная награда от 1 до 5 КотоКоинов.
-      </p>
+    // Состояние корзины: { productId: quantity }
+    let cart = {};
 
-      <p>
-        Иногда срабатывает <b>Крит-кот x2</b>, а если повезёт —
-        <b>ДЖЕКПОТ-КОТ x5</b> с фейерверками.
-      </p>
+    // Функция для сохранения корзины в localStorage (необязательно, но улучшает UX)
+    function saveCartToLocal() {
+        localStorage.setItem('marketCart', JSON.stringify(cart));
+    }
 
-      <p>
-        КотоКоины можно тратить на котов. Добавил кота в корзину —
-        монеты списались. Убрал кота — монеты вернулись.
-      </p>
-    </div>
-  </div>
+    function loadCartFromLocal() {
+        const saved = localStorage.getItem('marketCart');
+        if (saved) {
+            try {
+                cart = JSON.parse(saved) || {};
+            } catch(e) { cart = {}; }
+        } else {
+            cart = {};
+        }
+        renderCartUI();
+        updateCartTotalsAndBadge();
+    }
 
-  <div class="details-overlay" id="detailsOverlay">
-    <div class="details-modal">
-      <button class="close-details" id="closeDetailsBtn">×</button>
+    // Добавить товар в корзину
+    function addToCart(productId, productName, productPrice) {
+        if (cart[productId]) {
+            cart[productId].quantity += 1;
+        } else {
+            cart[productId] = {
+                id: productId,
+                name: productName,
+                price: productPrice,
+                quantity: 1
+            };
+        }
+        saveCartToLocal();
+        renderCartUI();
+        updateCartTotalsAndBadge();
+        showToast(`➕ ${productName} добавлен в корзину`);
+    }
 
-      <h2 id="detailsTitle">Кот</h2>
+    // Изменить количество
+    function changeQuantity(productId, delta) {
+        if (!cart[productId]) return;
+        const newQty = cart[productId].quantity + delta;
+        if (newQty <= 0) {
+            removeCartItem(productId);
+        } else {
+            cart[productId].quantity = newQty;
+            saveCartToLocal();
+            renderCartUI();
+            updateCartTotalsAndBadge();
+        }
+    }
 
-      <div class="details-video">
-        <video id="detailsVideo" autoplay loop muted playsinline></video>
-      </div>
+    // Удалить полностью
+    function removeCartItem(productId) {
+        if (cart[productId]) {
+            const productName = cart[productId].name;
+            delete cart[productId];
+            saveCartToLocal();
+            renderCartUI();
+            updateCartTotalsAndBadge();
+            showToast(`❌ ${productName} удалён из корзины`);
+        }
+    }
 
-      <p id="detailsText"></p>
-      <div class="details-stats" id="detailsStats"></div>
-    </div>
-  </div>
+    // Обновить общую сумму и бейдж
+    function updateCartTotalsAndBadge() {
+        let totalItems = 0;
+        let totalSum = 0;
+        for (let key in cart) {
+            const item = cart[key];
+            totalItems += item.quantity;
+            totalSum += item.quantity * item.price;
+        }
+        const badge = document.getElementById('cartCountBadge');
+        if (badge) badge.innerText = totalItems;
+        const summarySpan = document.getElementById('cartSummary');
+        if (summarySpan) summarySpan.innerText = `₽ ${totalSum.toLocaleString()}`;
+        // обновим тотал в футере корзины (если открыто, перерендерили уже)
+        const footerTotal = document.getElementById('cartTotalPrice');
+        if (footerTotal) footerTotal.innerText = `₽ ${totalSum.toLocaleString()}`;
+        
+        // Показать/скрыть футер и пустую корзину
+        const cartContainer = document.getElementById('cartItemsContainer');
+        const cartFooter = document.getElementById('cartFooter');
+        if (cartContainer && cartFooter) {
+            const hasItems = totalItems > 0;
+            cartFooter.style.display = hasItems ? 'block' : 'none';
+        }
+    }
 
-  <div class="stats-overlay" id="statsOverlay">
-    <div class="stats-modal">
-      <button class="close-stats" id="closeStatsBtn">×</button>
+    // Отрисовка списка товаров в корзине (popup)
+    function renderCartUI() {
+        const container = document.getElementById('cartItemsContainer');
+        if (!container) return;
+        
+        const cartItemsArray = Object.values(cart);
+        if (cartItemsArray.length === 0) {
+            container.innerHTML = `<div class="empty-cart-msg">🛒 Корзина пуста<br>Добавьте товары</div>`;
+            const footer = document.getElementById('cartFooter');
+            if (footer) footer.style.display = 'none';
+            updateCartTotalsAndBadge();
+            return;
+        }
+        
+        let html = '';
+        let totalSum = 0;
+        cartItemsArray.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            totalSum += itemTotal;
+            html += `
+                <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item-info">
+                        <span class="cart-item-title">${escapeHtml(item.name)}</span>
+                        <span class="cart-item-price">${item.price.toLocaleString()} ₽ / шт</span>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="cart-qty-btn" data-id="${item.id}" data-delta="-1">−</button>
+                        <span class="cart-item-qty">${item.quantity}</span>
+                        <button class="cart-qty-btn" data-id="${item.id}" data-delta="1">+</button>
+                        <span class="cart-item-total">${itemTotal.toLocaleString()} ₽</span>
+                        <button class="remove-item" data-id="${item.id}" title="Удалить">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        
+        // Привязываем события к кнопкам внутри корзины
+        document.querySelectorAll('.cart-qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                const delta = parseInt(btn.dataset.delta);
+                if (!isNaN(id) && !isNaN(delta)) {
+                    changeQuantity(id, delta);
+                }
+            });
+        });
+        
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                if (!isNaN(id)) removeCartItem(id);
+            });
+        });
+        
+        const footerDiv = document.getElementById('cartFooter');
+        if (footerDiv) footerDiv.style.display = 'block';
+        const totalSpan = document.getElementById('cartTotalPrice');
+        if (totalSpan) totalSpan.innerText = `₽ ${totalSum.toLocaleString()}`;
+        updateCartTotalsAndBadge();
+    }
+    
+    // простая защита от XSS
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
-      <h2>📊 Статистика МаМагазина</h2>
-
-      <div class="stats-cat">
-        <video src="images/mama_cute.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <div class="stats-grid">
-        <div>🐈 Куплено котов: <b id="statBought">0</b></div>
-        <div>🚚 Доставлено котов: <b id="statDelivered">0</b></div>
-        <div>💸 Потрачено: <b id="statSpent">0</b> КотоКоинов</div>
-        <div>💰 Заработано: <b id="statEarned">0</b> КотоКоинов</div>
-        <div>🎁 Промокодов: <b id="statPromos">0</b></div>
-      </div>
-
-      <p class="stats-note">
-        МаМагазин следит за котоэкономикой. Почти честно.
-      </p>
-    </div>
-  </div>
-
-  <div class="fireworks" id="fireworks"></div>
-
-  <div class="curse-overlay" id="curseOverlay">
-    <div class="curse-modal">
-      <h2>67</h2>
-
-      <p>
-        Число КотоКоинов — 67.<br />
-        Срочно потратьте или заработайте новые.
-      </p>
-
-      <div class="curse-actions">
-        <button id="curseSpendBtn">Потратить</button>
-        <button id="curseEarnBtn">Заработать новые</button>
-      </div>
-
-      <button class="keep-67" id="keep67Btn">оставить такой баланс</button>
-    </div>
-  </div>
-
-  <div class="screamer-overlay" id="screamerOverlay">
-    <video src="images/mama_another_hat.mp4" autoplay muted playsinline></video>
-    <div>НЕ ЗАХОДИ СЮДА БОЛЬШЕ.</div>
-  </div>
-
-  <header>
-    <div class="logo">МаМагазин</div>
-    <p class="subtitle">Витрина котов-гивок. Оплата только КотоКоинами 🐾</p>
-  </header>
-
-  <main class="shop">
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_mini.MP4" autoplay loop muted playsinline></video>
-      </div>
-
-      <h2>МаМини</h2>
-      <p class="desc">Маленький кот, большая важность.</p>
-      <div class="price">Цена: 25 КотоКоинов</div>
-
-      <button class="buy-btn" data-name="МаМини" data-price="25">В корзину</button>
-      <button class="details-btn" data-cat="mini">Подробнее</button>
-    </div>
-
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_pineapple.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <h2>Ананасовый Ма</h2>
-      <p class="desc">Выглядит мило, но явно что-то планирует.</p>
-      <div class="price">Цена: 40 КотоКоинов</div>
-
-      <button class="buy-btn" data-name="Ананасовый Ма" data-price="40">В корзину</button>
-      <button class="details-btn" data-cat="pineapple">Подробнее</button>
-    </div>
-
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_cute.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <h2>МаМилашка</h2>
-      <p class="desc">Слишком милый. Подозрительно.</p>
-      <div class="price">Цена: 30 КотоКоинов</div>
-
-      <button class="buy-btn" data-name="МаМилашка" data-price="30">В корзину</button>
-      <button class="details-btn" data-cat="cute">Подробнее</button>
-    </div>
-
-    <div class="card">
-      <div class="cat mahat2-box">
-        <video class="mahat2-video" src="images/mama_another_hat.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <h2>МаШляпа 2</h2>
-      <p class="desc">Когда стиль есть, а вопросов больше.</p>
-      <div class="price">Цена: 35 КотоКоинов</div>
-
-      <button class="buy-btn" data-name="МаШляпа 2" data-price="35">В корзину</button>
-      <button class="details-btn" data-cat="hat2">Подробнее</button>
-    </div>
-
-    <div class="card">
-      <div class="cat">
-        <video src="images/mama_hat.mp4" autoplay loop muted playsinline></video>
-      </div>
-
-      <h2>МаШляпа</h2>
-      <p class="desc">Главная модница всего МаМагазина.</p>
-      <div class="price">Цена: 45 КотоКоинов</div>
-
-      <button class="buy-btn" data-name="МаШляпа" data-price="45">В корзину</button>
-      <button class="details-btn" data-cat="hat">Подробнее</button>
-    </div>
-  </main>
-
-  <section class="game">
-    <button class="rules-btn" id="openRulesBtn">❓ Правила</button>
-
-    <h2>🐾 КотоКликер</h2>
-
-    <p>
-      Жми на лапу: выпадет случайная награда от 1 до 5 КотоКоинов.
-    </p>
-
-    <button class="paw" id="earnBtn">🐾</button>
-
-    <div class="game-stats">
-      <div>Последний дроп: <span id="lastDrop">0</span> КотоКоинов</div>
-      <div>Множитель: <span id="multiplier">x1</span></div>
-    </div>
-
-    <div id="gameMessage">
-      Иногда выпадает крит-кот x2 или джекпот 😼
-    </div>
-  </section>
-
-  <footer>
-    © 2026 МаМагазин. @aerisgold
-  </footer>
-
-  <script src="script.js"></script>
+    // Рендер сетки товаров (продукты)
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        if (!grid) return;
+        let productsHtml = '';
+        productsData.forEach(product => {
+            productsHtml += `
+                <div class="product-card" data-id="${product.id}">
+                    <div class="product-image">
+                        <span style="font-size: 4rem;">${product.emoji}</span>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${escapeHtml(product.name)}</div>
+                        <div class="product-price">${product.price.toLocaleString()} <small>₽</small></div>
+                        <button class="buy-btn" data-id="${product.id}" data-name="${escapeHtml(product.name)}" data-price="${product.price}">
+                            🛒 Купить
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        grid.innerHTML = productsHtml;
+        
+        // Добавить обработчики кнопок "Купить"
+        document.querySelectorAll('.buy-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = parseInt(btn.dataset.id);
+                const name = btn.dataset.name;
+                const price = parseInt(btn.dataset.price);
+                if (!isNaN(id) && name && !isNaN(price)) {
+                    addToCart(id, name, price);
+                }
+            });
+        });
+    }
+    
+    // Всплывающее сообщение
+    let toastTimeout = null;
+    function showToast(message) {
+        const toastEl = document.getElementById('toastMsg');
+        if (!toastEl) return;
+        toastEl.innerText = message;
+        toastEl.classList.add('show');
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toastEl.classList.remove('show');
+        }, 1800);
+    }
+    
+    // Управление открытием/закрытием корзины
+    function initCartDropdown() {
+        const toggleBtn = document.getElementById('cartToggleBtn');
+        const dropdown = document.getElementById('cartDropdown');
+        const closeBtn = document.getElementById('closeCartBtn');
+        
+        if (toggleBtn && dropdown) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('open');
+                // обновляем отображение на всякий случай при открытии
+                if (dropdown.classList.contains('open')) {
+                    renderCartUI();
+                }
+            });
+        }
+        if (closeBtn && dropdown) {
+            closeBtn.addEventListener('click', () => {
+                dropdown.classList.remove('open');
+            });
+        }
+        // Закрытие при клике вне корзины
+        document.addEventListener('click', function(event) {
+            if (dropdown && dropdown.classList.contains('open')) {
+                const isClickInside = dropdown.contains(event.target) || toggleBtn.contains(event.target);
+                if (!isClickInside) {
+                    dropdown.classList.remove('open');
+                }
+            }
+        });
+    }
+    
+    // Оформление заказа (симуляция)
+    function setupCheckout() {
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                const totalItems = Object.values(cart).reduce((acc, i) => acc + i.quantity, 0);
+                if (totalItems === 0) {
+                    showToast('Корзина пуста, добавьте товары');
+                    return;
+                }
+                const totalSum = Object.values(cart).reduce((acc, i) => acc + (i.price * i.quantity), 0);
+                showToast(`✅ Заказ оформлен! Сумма: ${totalSum.toLocaleString()} ₽. Спасибо за покупку!`);
+                // Очищаем корзину после заказа
+                cart = {};
+                saveCartToLocal();
+                renderCartUI();
+                updateCartTotalsAndBadge();
+                // Закрыть дропдаун если открыт
+                const dropdown = document.getElementById('cartDropdown');
+                if (dropdown) dropdown.classList.remove('open');
+            });
+        }
+    }
+    
+    // Инициализация всех модулей
+    function init() {
+        loadCartFromLocal();  // загрузить корзину, рендер корзины+бейдж
+        renderProducts();     // отрисовать товары + кнопки купить
+        initCartDropdown();   // поведение корзины сверху
+        setupCheckout();      // кнопка оформить заказ
+        // обновить бейдж / сумму еще раз для синхронизации (loadCart уже вызвал renderCartUI и upd)
+        updateCartTotalsAndBadge();
+    }
+    
+    // Старт после загрузки DOM
+    document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
